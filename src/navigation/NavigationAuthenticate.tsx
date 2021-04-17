@@ -20,7 +20,7 @@ const NavigationAuthenticate: React.FC<NavigationAuthenticateProps> = () => {
   return (  
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="market"
+        initialRouteName="my-market"
         tabBarOptions={{
           inactiveTintColor: Colors.GRAYINACTIVE,
           activeTintColor: Colors.WHITE,

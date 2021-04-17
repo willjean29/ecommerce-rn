@@ -7,7 +7,8 @@ export default function App() {
   const user = true;
 
   return (
-    <NavigationAuthenticate/>
+    // <NavigationAuthenticate/>
+    <NavigationNoAuthenticate/>
   );
 }
 
