@@ -68,6 +68,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toast}) => {
         title="Iniciar Sesión"
         containerStyle={styles.containerBtn}
         buttonStyle={styles.btnLogin}
+        titleStyle={styles.titleBtnLogin}
       />
       <Text style={styles.txtMessage}>
         ¿No tienes cuenta?{" "}
@@ -120,8 +121,6 @@ const styles = StyleSheet.create({
   },
   viewLoginForm: {
     marginTop: 30,
-    // flex: 1,
-    // height: 600,
     backgroundColor: Colors.WHITE,
     paddingVertical: 30,
     paddingHorizontal: 20,
@@ -146,11 +145,12 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: Colors.GREEN,
-    height: 2
+    height: 2,
+    width: "95%",
+    alignSelf: "center"
   },
   txtOr: {
     color: Colors.GREEN,
-    // fontWeight: "bold",
     textAlign: "center",
     fontSize: 14,
     marginVertical: 10
@@ -164,10 +164,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   containerBtn: {
-    marginTop: 10
+    marginTop: 10,
+    width: "90%",
+    alignSelf: "center"
   },
   btnLogin: {
+    borderRadius: 10,
     backgroundColor: Colors.GREENLIGHT,
+  },
+  titleBtnLogin: {
+    textTransform: "uppercase",
+    fontWeight: "bold",
   }
 })
  

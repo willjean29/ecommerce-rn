@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { Image } from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,7 +13,7 @@ export interface LoginProps {
 }
  
 const Login: React.FC<LoginProps> = () => {
-  const toast = React.useRef(null);
+  const toast = useRef(null);
   return (  
     // <KeyboardAwareScrollView>
       <KeyboardAwareScrollView style={styles.viewLogin}>
