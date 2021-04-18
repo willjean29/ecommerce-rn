@@ -2,33 +2,53 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon, Button, Divider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'hooks/useForm';
 import { LoginDto } from 'context/user/dtos/login.dto';
-import { Colors } from 'utils/enums';
-
+import { Colors, MessagesToast } from 'utils/enums';
+import { validationEmail, validationPassword } from 'utils/validations';
+import firebase from 'database/firebase';
 export interface LoginFormProps {
   toast: React.MutableRefObject<any>
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
  
-const LoginForm: React.FC<LoginFormProps> = ({toast}) => {
-  const [dataUser, setDataUser] = useState<LoginDto>({
-    email: "",
-    password: ""
-  });
+const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const {dataForm, onChangeValue} = useForm<LoginDto>({
+    email: "",
+    password: "",
+  })
   const navigation = useNavigation();
- 
-  const handleChangeText = (value: string, key: string) => {
-    setDataUser({
-      ...dataUser,
-      [key] : value
-    })
+
+  const handleLogin = async() => {
+    if(!dataForm.email || !dataForm.password ){
+      toast.current.show(MessagesToast.EMPTY);
+    }else if(!validationEmail(dataForm.email)){
+      toast.current.show(MessagesToast.EMAIL_ERROR);
+    }else if(!validationPassword(dataForm.password)){
+      toast.current.show(MessagesToast.PASSWORD_LENGTH);
+    }else{
+      setIsVisible(true);
+      try {
+        const user = await firebase.auth.signInWithEmailAndPassword(dataForm.email,dataForm.password);
+        console.log(user);
+        setIsVisible(false);
+        toast.current.show(MessagesToast.LOGIN_SUCCESS);
+      } catch (error) {
+        console.log(error);
+        setIsVisible(false);
+        toast.current.show(MessagesToast.LOGIN_ERROR);
+      }
+      console.log("INICIAR SESION");
+    }
   }
+ 
   return (  
     <View style={styles.viewLoginForm}>
       <Divider style={styles.dividerTop}/>
       <Input
         placeholder="Correo"
-        onChangeText={(text: string) => handleChangeText(text, "email")}
+        onChangeText={(text: string) => onChangeValue(text, "email")}
         leftIcon={
           <Icon
             type="material-community"
@@ -47,7 +67,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toast}) => {
       <Input
         placeholder="Contraseña"
         secureTextEntry={showPassword ? false : true}
-        onChangeText={(text: string) => handleChangeText(text, "password")}
+        onChangeText={(text: string) => onChangeValue(text, "password")}
         leftIcon={
           <Icon
             type="material-community"
@@ -69,6 +89,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toast}) => {
         containerStyle={styles.containerBtn}
         buttonStyle={styles.btnLogin}
         titleStyle={styles.titleBtnLogin}
+        onPress={handleLogin}
       />
       <Text style={styles.txtMessage}>
         ¿No tienes cuenta?{" "}

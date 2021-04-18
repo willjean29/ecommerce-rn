@@ -2,18 +2,55 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon, Button, Divider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import { Colors } from 'utils/enums';
+import { useForm } from 'hooks/useForm';
+import { Colors, MessagesToast } from 'utils/enums';
+import { validationEmail, validationPassword, comparePassword } from 'utils/validations';
+
+import firebase from 'database/firebase';
 export interface RegisterFormProps {
-  
+  toast: React.MutableRefObject<any>
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
  
-const RegisterForm: React.FC<RegisterFormProps> = () => {
+const RegisterForm: React.FC<RegisterFormProps> = ({toast,setIsVisible}) => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const {dataForm, onChangeValue} = useForm({
+    email: "",
+    password: "",
+    repeatedPassword: "",
+  })
   const navigation = useNavigation();
+
+  const handleRegister = async() => {
+    if(!dataForm.email || !dataForm.password || !dataForm.repeatedPassword){
+      toast.current.show(MessagesToast.EMPTY);
+    }else if(!validationEmail(dataForm.email)){
+      toast.current.show(MessagesToast.EMAIL_ERROR);
+    }else if(!validationPassword(dataForm.password)){
+      toast.current.show(MessagesToast.PASSWORD_LENGTH);
+    }else if(!comparePassword(dataForm.password, dataForm.repeatedPassword)){
+      toast.current.show(MessagesToast.COMPARE_PASSWORD);
+    }else{
+      console.log("REGISTRAR USUARIO");
+      setIsVisible(true);
+      try {
+        const user = await firebase.auth.createUserWithEmailAndPassword(dataForm.email, dataForm.password);
+        console.log(user);
+        setIsVisible(false);
+        toast.current.show(MessagesToast.REGISTER_USER_SUCCESS);
+      } catch (error) {
+        console.log(error);
+        setIsVisible(false);
+        toast.current.show(MessagesToast.REGISTER_USER_ERROR);
+      }
+    }
+  }
   return (  
     <View style={styles.viewRegisterForm}>
       <Divider style={styles.dividerTop}/>
       <Input
         placeholder="Correo"
+        onChangeText={(text: string) => onChangeValue(text, "email")}
         leftIcon={
           <Icon
             type="material-community"
@@ -31,6 +68,8 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
       />
       <Input
         placeholder="Contraseña"
+        secureTextEntry={showPassword ? false : true}
+        onChangeText={(text: string) => onChangeValue(text, "password")}
         leftIcon={
           <Icon
             type="material-community"
@@ -41,13 +80,16 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
         rightIcon={
           <Icon
             type="material-community"
-            name={"eye-outline"}
+            name={showPassword ? "eye-off-outline" : "eye-outline"}
             color={Colors.GREEN}
+            onPress={() => setShowPassword(!showPassword)}
           />
         }
       />
       <Input
         placeholder="Repetir Contraseña"
+        secureTextEntry={showPassword ? false : true}
+        onChangeText={(text: string) => onChangeValue(text, "repeatedPassword")}
         leftIcon={
           <Icon
             type="material-community"
@@ -58,8 +100,9 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
         rightIcon={
           <Icon
             type="material-community"
-            name={"eye-outline"}
+            name={showPassword ? "eye-off-outline" : "eye-outline"}
             color={Colors.GREEN}
+            onPress={() => setShowPassword(!showPassword)}
           />
         }
       />
@@ -68,6 +111,7 @@ const RegisterForm: React.FC<RegisterFormProps> = () => {
         containerStyle={styles.containerBtn}
         buttonStyle={styles.btnRegister}
         titleStyle={styles.titleBtnRegister}
+        onPress={handleRegister}
       />
       <Button
         title="Iniciar Sesión"
