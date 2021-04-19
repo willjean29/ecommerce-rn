@@ -4,7 +4,8 @@ export enum Colors {
   GREEN2 = "#128C73",
   GRAYINACTIVE = "#DDD",
   GREENLIGHT = "#25D366",
-  BLACK = "#000"
+  BLACK = "#000",
+  GREEN_OPACITY = "rgba(37,211,106, 0.6)"
 }
 
 export enum Length {

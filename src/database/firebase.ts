@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyBdesPwpZ9WFpDGeTJjVXXA_WEmEub_KBo",
   authDomain: "ecommerce-rn.firebaseapp.com",
   projectId: "ecommerce-rn",
@@ -20,10 +20,11 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 const getCredentials = firebase.auth.EmailAuthProvider.credential;
-
+const getNumberCredentials = firebase.auth.PhoneAuthProvider.credential;
 export default {
   auth,
   db,
   storage,
-  getCredentials
+  getCredentials,
+  getNumberCredentials
 }

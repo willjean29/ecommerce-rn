@@ -18,7 +18,7 @@ const Login: React.FC<LoginProps> = () => {
   const toast = useRef(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   // logout();
-  authSesionUser();
+  // authSesionUser();
   return (  
     <KeyboardAwareScrollView style={styles.viewLogin}>
       <StatusBar backgroundColor={Colors.GREEN}/>
