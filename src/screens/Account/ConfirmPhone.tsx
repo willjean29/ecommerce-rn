@@ -14,6 +14,7 @@ export interface ConfirmPhoneProps {
 const ConfirmPhone: React.FC<ConfirmPhoneProps> = () => {
   const recapchaVerification = useRef();
   const inputNumber = useRef();
+  const toast = useRef(null);
   return (  
     <KeyboardAwareScrollView style={styles.viewConfirmPhone}>
       <Image
@@ -25,11 +26,14 @@ const ConfirmPhone: React.FC<ConfirmPhoneProps> = () => {
         }
       />
       <ConfirmNumber
+        toast={toast}
         recapcha={recapchaVerification}
+        inputNumber={inputNumber}
       />
       <FirebaseRecapcha
         recapcha={recapchaVerification}
       />
+      <Toast ref={toast} position="center" opacity={0.8}/>
     </KeyboardAwareScrollView>
   );
 }

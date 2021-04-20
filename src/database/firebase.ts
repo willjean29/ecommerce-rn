@@ -21,10 +21,12 @@ const db = firebase.firestore();
 const storage = firebase.storage();
 const getCredentials = firebase.auth.EmailAuthProvider.credential;
 const getNumberCredentials = firebase.auth.PhoneAuthProvider.credential;
+const getNumberProvider = firebase.auth.PhoneAuthProvider;
 export default {
   auth,
   db,
   storage,
   getCredentials,
-  getNumberCredentials
+  getNumberCredentials,
+  getNumberProvider
 }

@@ -3,31 +3,34 @@ import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Icon, Divider, Button, Input } from 'react-native-elements';
 import CountryPicker, { CountryCode, TranslationLanguageCode } from 'react-native-country-picker-modal';
 import { useNavigation } from '@react-navigation/native';
-import { Colors } from 'utils/enums';
+import { Colors, MessagesToast } from 'utils/enums';
 import { sendConfirmation } from 'utils/actions';
 
 
 export interface ConfirmNumberProps {
-  recapcha: React.MutableRefObject<any>
+  recapcha: React.MutableRefObject<any>,
+  toast: React.MutableRefObject<any>,
+  inputNumber: React.MutableRefObject<any>
 }
  
-const ConfirmNumber: React.FC<ConfirmNumberProps> = ({recapcha}) => {
+const ConfirmNumber: React.FC<ConfirmNumberProps> = ({recapcha,toast,inputNumber}) => {
   const [country, setCountry] = useState<CountryCode>("PE");
   const [callingCode, setCallingCode] = useState<string>("51");
   const [phone, setPhone] = useState<string>("");
   const lenguage : TranslationLanguageCode = "spa";
   const navigation = useNavigation();
   const handleSendConfirm = async() => {
-    console.log("dfdsfd");
     if(!phone){
-      console.log("Ingrese un número de teléfono por favor");
+      toast.current.show("Ingrese un número de teléfono por favor");
     }else{
       const number = `+${callingCode}${phone}`;
       const validationId = await sendConfirmation(number,recapcha);
       if(validationId){
-        navigation.navigate("send-confirm")
+        navigation.navigate("send-confirm",{validationId})
       }else{
-        console.log("raaaaaa");
+        toast.current.show(MessagesToast.NUMBER_ERROR);
+        inputNumber.current.clear();
+        inputNumber.current.focus();
       }
     }
   }
@@ -63,6 +66,8 @@ const ConfirmNumber: React.FC<ConfirmNumberProps> = ({recapcha}) => {
           style={styles.inputNumber}
           placeholderTextColor={Colors.WHITE}
           onChangeText={(text: string) => setPhone(text)}
+          keyboardType="numeric"
+          ref={inputNumber}
         />
       </View>
       <Button

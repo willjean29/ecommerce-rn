@@ -12,6 +12,10 @@ export enum Length {
   PASSWORD = 6
 }
 
+export enum Collections {
+  USERS = "Users"
+}
+
 export enum MessagesToast{
   EMPTY = "Todos los campos son abligatorios",
   EMAIL_ERROR = "Ingrese un email correcto",
@@ -20,5 +24,6 @@ export enum MessagesToast{
   REGISTER_USER_SUCCESS = "Usuario registrado con exito",
   REGISTER_USER_ERROR = "Error al registrar usuario",
   LOGIN_SUCCESS = "Sesion iniciada con exito",
-  LOGIN_ERROR = "Error al iniciar sesión"
+  LOGIN_ERROR = "Error al iniciar sesión",
+  NUMBER_ERROR = "Ingrese un # de teléfono correcto"
 }
