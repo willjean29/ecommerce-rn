@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Icon, Divider, Button, Input } from 'react-native-elements';
 import CountryPicker, { CountryCode, TranslationLanguageCode } from 'react-native-country-picker-modal';
 import { useNavigation } from '@react-navigation/native';
+import UserContext from 'context/user/user.context';
 import { Colors, MessagesToast } from 'utils/enums';
-import { sendConfirmation } from 'utils/actions';
 
 
 export interface ConfirmNumberProps {
@@ -17,14 +17,16 @@ const ConfirmNumber: React.FC<ConfirmNumberProps> = ({recapcha,toast,inputNumber
   const [country, setCountry] = useState<CountryCode>("PE");
   const [callingCode, setCallingCode] = useState<string>("51");
   const [phone, setPhone] = useState<string>("");
+  const {sendCode} = useContext(UserContext);
   const lenguage : TranslationLanguageCode = "spa";
   const navigation = useNavigation();
+
   const handleSendConfirm = async() => {
     if(!phone){
       toast.current.show("Ingrese un número de teléfono por favor");
     }else{
       const number = `+${callingCode}${phone}`;
-      const validationId = await sendConfirmation(number,recapcha);
+      const validationId = await sendCode(number,recapcha);
       if(validationId){
         navigation.navigate("send-confirm",{validationId})
       }else{
@@ -34,6 +36,7 @@ const ConfirmNumber: React.FC<ConfirmNumberProps> = ({recapcha,toast,inputNumber
       }
     }
   }
+
   return (  
     <View style={styles.viewConfirmNumber}>
       <Divider style={styles.dividerTop}/>

@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import React, {useState, useContext} from 'react';
+import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Image } from 'react-native-elements';
-import Toast from 'react-native-easy-toast';
 import CodeInput from 'react-native-code-input';
 import { Route, useNavigation, NavigationState} from '@react-navigation/native';
+import UserContext from 'context/user/user.context';
 import Loading from 'components/Loading';
 import Logo from 'assets/img/logo.png';
-import { Colors } from 'utils/enums';
-import { confirmCode, getCurrentUser, registerForPushNotificationsAsync, addRegisterCollection } from 'utils/actions';
+import { Colors, MessagesToast } from 'utils/enums';
 
 interface SendConfirmParams {
   validationId: string
@@ -20,30 +19,44 @@ export interface SendConfirmProps {
 const SendConfirm: React.FC<SendConfirmProps> = ({route,navigation}) => {
   const {validationId} = route.params;
   const [loading, setLoading] = useState(false);
-
+  const {
+    confirmCode,
+    registerPushNotification,
+    addCollectionData,
+    getCurrentUser
+  } = useContext(UserContext);
   const handleConfirmCode = async (code: string) => {
     setLoading(true);
     const result = await confirmCode(validationId,code);
     if(result){
-      const token = await registerForPushNotificationsAsync();
-      const {uid,displayName,phoneNumber,photoURL,email} = getCurrentUser();
+      const token = await registerPushNotification();
+      const {uid,displayName,phoneNumber,photoURL,email,} = getCurrentUser();
   
-      const registerUser = await addRegisterCollection("Users",uid,{
+      await addCollectionData("Users",uid,{
+        uid,
         token,
         displayName,
         phoneNumber,
         photoURL,
         email,
-        createAt: new Date()
+        createdAt: new Date()
       })
-      setLoading(false);
-
+      // setLoading(false);
     }else{
       console.log("hubo un error");
       setLoading(false);
-
+      Alert.alert(
+        "Error Código",
+        MessagesToast.CODE_CONFIRM_ERROR,
+        [
+          {
+            text: "OK",
+            style: "cancel"
+          }
+        ],
+        {cancelable: true}
+      );
     }
-
   }
   return (  
     <View style={styles.viewSendConfirm}>

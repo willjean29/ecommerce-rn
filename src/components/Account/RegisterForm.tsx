@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon, Button, Divider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import UserContext from 'context/user/user.context';
 import { useForm } from 'hooks/useForm';
 import { Colors, MessagesToast } from 'utils/enums';
 import { validationEmail, validationPassword, comparePassword } from 'utils/validations';
@@ -19,6 +20,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({toast,setIsVisible}) => {
     password: "",
     repeatedPassword: "",
   })
+  const {singUp} = useContext(UserContext);
+
   const navigation = useNavigation();
 
   const handleRegister = async() => {
@@ -31,13 +34,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({toast,setIsVisible}) => {
     }else if(!comparePassword(dataForm.password, dataForm.repeatedPassword)){
       toast.current.show(MessagesToast.COMPARE_PASSWORD);
     }else{
-      console.log("REGISTRAR USUARIO");
       setIsVisible(true);
       try {
-        const user = await firebase.auth.createUserWithEmailAndPassword(dataForm.email, dataForm.password);
-        console.log(user);
-        setIsVisible(false);
-        toast.current.show(MessagesToast.REGISTER_USER_SUCCESS);
+        const registerDto = {email:dataForm.email,password:dataForm.password}
+        await singUp(registerDto);
+        // setIsVisible(false);
+        // toast.current.show(MessagesToast.REGISTER_USER_SUCCESS);
       } catch (error) {
         console.log(error);
         setIsVisible(false);

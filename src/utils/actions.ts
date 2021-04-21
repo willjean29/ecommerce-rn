@@ -11,55 +11,7 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true,
   }),
 });
-export const authSesionUser = (setSesionUser: React.Dispatch<React.SetStateAction<boolean>>) => {
-  firebase.auth.onAuthStateChanged((user) => {
-    if(user){
-      console.log("SESION ACTIVA");
-      setSesionUser(true);
-    }else{
-      console.log("NO HAY SESION ACTIVA")
-    }
-  });
-}
 
-export const logout = async() => {
-  await firebase.auth.signOut()
-}
-
-export const validationPhone = (setPhoneAuth: React.Dispatch<React.SetStateAction<boolean>>) => {
-  firebase.db.collection("Users").doc(getCurrentUser().uid).onSnapshot((snapshot) => {
-    setPhoneAuth(snapshot.exists);
-  })
-}
-
-export const sendConfirmation = async(number: string, recapcha: any) => {
-  let verificationId = "";
-  try {
-    const response = await firebase.auth.currentUser?.reauthenticateWithPhoneNumber(number, recapcha.current);
-    verificationId = response?.verificationId as string;
-    // const provider = new firebase.getNumberProvider();
-    // const response = await provider.verifyPhoneNumber(number,recapcha.current);
-    console.log(verificationId);
-  } catch (error) {
-    console.log("raa");
-    console.log(error);
-  }
-  return verificationId;
-}
-
-export const confirmCode = async(verificationId: string, code: string) => {
-  let result = false;
-  const credetials = firebase.getNumberCredentials(verificationId,code);
-  try {
-    const user = await firebase.auth.currentUser?.linkWithCredential(credetials);
-    result = true;
-    console.log(user);
-  } catch (error) {
-    console.log(error);
-  }
-
-  return result;
-}
 export const registerForPushNotificationsAsync = async () => {
   let token : string = "";
   if (Constants.isDevice) {
@@ -88,10 +40,6 @@ export const registerForPushNotificationsAsync = async () => {
   }
   return token;
 };
-
-export const getCurrentUser = () => {
-  return firebase.auth.currentUser as firebase.User;
-}
 
 export const addRegisterCollection = async(collection: string, doc: string, data: object) => {
   const result = {

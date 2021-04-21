@@ -25,5 +25,6 @@ export enum MessagesToast{
   REGISTER_USER_ERROR = "Error al registrar usuario",
   LOGIN_SUCCESS = "Sesion iniciada con exito",
   LOGIN_ERROR = "Error al iniciar sesión",
-  NUMBER_ERROR = "Ingrese un # de teléfono correcto"
+  NUMBER_ERROR = "Ingrese un # de teléfono correcto",
+  CODE_CONFIRM_ERROR = "Ingrese un codigo válido"
 }

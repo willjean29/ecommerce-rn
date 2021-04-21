@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View } from 'react-native';
 import Loading from 'components/Loading';
 import NavigationAuthenticate from 'navigation/NavigationAuthenticate';
 import AccountStack from 'navigation/AccountStack';
-import { validationPhone } from 'utils/actions';
+import UserContext from 'context/user/user.context';
+// import { validationPhone } from 'utils/actions';
 
 export interface SwitchNavigationProps {
   
@@ -12,12 +13,12 @@ export interface SwitchNavigationProps {
 const SwitchNavigation: React.FC<SwitchNavigationProps> = () => {
   const [phoneAuth, setPhoneAuth] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const {validatioPhone} = useContext(UserContext);
   useEffect(() => {
-    validationPhone(setPhoneAuth);
+    validatioPhone(setPhoneAuth);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, [])
 
   if(loading) {

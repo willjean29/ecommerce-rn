@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon, Button, Divider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import UserContext from 'context/user/user.context';
 import { useForm } from 'hooks/useForm';
 import { LoginDto } from 'context/user/dtos/login.dto';
 import { Colors, MessagesToast } from 'utils/enums';
@@ -20,6 +21,8 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
   })
   const navigation = useNavigation();
 
+  const {singIn} = useContext(UserContext);
+
   const handleLogin = async() => {
     if(!dataForm.email || !dataForm.password ){
       toast.current.show(MessagesToast.EMPTY);
@@ -30,10 +33,9 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
     }else{
       setIsVisible(true);
       try {
-        const user = await firebase.auth.signInWithEmailAndPassword(dataForm.email,dataForm.password);
-        console.log(user);
-        setIsVisible(false);
-        toast.current.show(MessagesToast.LOGIN_SUCCESS);
+        await singIn(dataForm);
+        // setIsVisible(false);
+        // toast.current.show(MessagesToast.LOGIN_SUCCESS);
       } catch (error) {
         console.log(error);
         setIsVisible(false);
