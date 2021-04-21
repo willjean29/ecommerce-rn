@@ -6,7 +6,7 @@ import { Route, useNavigation, NavigationState} from '@react-navigation/native';
 import UserContext from 'context/user/user.context';
 import Loading from 'components/Loading';
 import Logo from 'assets/img/logo.png';
-import { Colors, MessagesToast } from 'utils/enums';
+import { Colors, MessagesLoading, MessagesToast } from 'utils/enums';
 
 interface SendConfirmParams {
   validationId: string
@@ -83,7 +83,7 @@ const SendConfirm: React.FC<SendConfirmProps> = ({route,navigation}) => {
         containerStyle={{ marginTop: 30 }}
         codeInputStyle={{ borderWidth: 1.5}}
       />
-      <Loading isVisible={loading} text="Cargando ..."/>
+      <Loading isVisible={loading} text={MessagesLoading.LOADING}/>
     </View>
   );
 }

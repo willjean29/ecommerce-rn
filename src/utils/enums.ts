@@ -22,9 +22,18 @@ export enum MessagesToast{
   PASSWORD_LENGTH = "La contraseña debe tener 6 caracteres como minimo",
   COMPARE_PASSWORD = "Las contraseñas deben ser iguales",
   REGISTER_USER_SUCCESS = "Usuario registrado con exito",
-  REGISTER_USER_ERROR = "Error al registrar usuario",
+  REGISTER_ERROR ="Error al registrar usuario",
+  REGISTER_USER_ERROR = "El email ya se encuentra registrado",
+  REGISTER_FIREBASE_ERROR = "Error: Error: The email address is already in use by another account.",
   LOGIN_SUCCESS = "Sesion iniciada con exito",
-  LOGIN_ERROR = "Error al iniciar sesión",
+  LOGIN_ERROR = "Email o contraseña incorrecta",
   NUMBER_ERROR = "Ingrese un # de teléfono correcto",
   CODE_CONFIRM_ERROR = "Ingrese un codigo válido"
+}
+
+export enum MessagesLoading{
+  LOADING = "Cargando ...",
+  LOAD_CONFIG = "Cargando Configuración",
+  SINGIN = "Iniciando Sesión",
+  SINGUP = "Registrando Usuario"
 }

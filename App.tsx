@@ -5,7 +5,7 @@ import NavigationNoAuthenticate from './src/navigation/NavigationNoAuthenticate'
 import SwitchNavigation from './src/navigation/SwitchNavigation';
 import UserState from './src/context/user/user.state';
 import UserContext from './src/context/user/user.context';
-
+import {MessagesLoading} from './src/utils/enums';
 LogBox.ignoreLogs(["Setting a timer"]);
 LogBox.ignoreAllLogs();
 
@@ -20,7 +20,6 @@ export default function App() {
 function SwitchScreens() {
   const {userState, reloadUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  console.log("datai",userState.user);
   useEffect(() => {
     setLoading(true);
     reloadUser();
@@ -30,7 +29,7 @@ function SwitchScreens() {
   }, [])
   if(loading){
     return (
-      <Loading isVisible={loading} text="Cargando ..."/>
+      <Loading isVisible={loading} text={MessagesLoading.LOADING}/>
     )
   }
   return userState.user ? (

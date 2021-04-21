@@ -6,7 +6,7 @@ import Toast from 'react-native-easy-toast';
 import RegisterForm from 'components/Account/RegisterForm';
 import Loading from 'components/Loading';
 import Logo from 'assets/img/logo.png';
-import { Colors } from 'utils/enums';
+import { Colors, MessagesLoading } from 'utils/enums';
 
 export interface RegisterProps {
   
@@ -15,7 +15,6 @@ export interface RegisterProps {
 const Register: React.FC<RegisterProps> = () => {
   const toast = useRef(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [txtLoading, setTxtLoading] = useState<string>("");
   return (  
     <KeyboardAwareScrollView style={styles.viewRegister}>
       <StatusBar backgroundColor={Colors.GREEN}/>
@@ -35,7 +34,7 @@ const Register: React.FC<RegisterProps> = () => {
       <Toast ref={toast} position="center" opacity={0.8}/>
       <Loading
         isVisible={isVisible}
-        text="Registrando Usuario"
+        text={MessagesLoading.SINGUP}
       />
     </KeyboardAwareScrollView>
   );

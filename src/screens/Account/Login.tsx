@@ -7,9 +7,7 @@ import Toast from 'react-native-easy-toast';
 import LoginForm from 'components/Account/LoginForm';
 import Loading from 'components/Loading';
 import Logo from 'assets/img/logo.png';
-import { Colors } from 'utils/enums';
-import { authSesionUser, logout } from 'utils/actions';
-
+import { Colors, MessagesLoading } from 'utils/enums';
 export interface LoginProps {
   
 }
@@ -38,7 +36,7 @@ const Login: React.FC<LoginProps> = () => {
       <Toast ref={toast} position="center" opacity={0.8}/>
       <Loading
         isVisible={isVisible}
-        text="Cargando ..."
+        text={MessagesLoading.SINGIN}
       />
     </KeyboardAwareScrollView>
   );

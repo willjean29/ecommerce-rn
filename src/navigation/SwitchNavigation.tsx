@@ -4,6 +4,7 @@ import Loading from 'components/Loading';
 import NavigationAuthenticate from 'navigation/NavigationAuthenticate';
 import AccountStack from 'navigation/AccountStack';
 import UserContext from 'context/user/user.context';
+import { MessagesLoading } from 'utils/enums';
 // import { validationPhone } from 'utils/actions';
 
 export interface SwitchNavigationProps {
@@ -23,7 +24,7 @@ const SwitchNavigation: React.FC<SwitchNavigationProps> = () => {
 
   if(loading) {
     return (
-      <Loading isVisible={loading} text="Cargando Configuración"/>
+      <Loading isVisible={loading} text={MessagesLoading.LOAD_CONFIG}/>
     )
   }else{
     return phoneAuth ? (

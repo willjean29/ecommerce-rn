@@ -79,6 +79,7 @@ export const singUpAction = async(dispatch: React.Dispatch<UserDispatchTypes>, u
       type: REGISTER_ERROR,
       payload: true
     })
+    throw new Error(error)
   }
 
 }
@@ -92,12 +93,10 @@ export const singInAction = async(dispatch: React.Dispatch<UserDispatchTypes>, u
     const response = await firebase.auth.signInWithEmailAndPassword(userDto.email,userDto.password);
     await getCollectionlUser(dispatch);
   } catch (error) {
-    console.log(error);
     dispatch({
       type: LOGIN_ERROR,
       payload: true
     })
-    throw new Error(error)
   }
   
 }

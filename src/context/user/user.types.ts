@@ -13,14 +13,6 @@ export const RELOAD_USER = "RELOAD_USER";
 export const RELOAD_USER_SUCCESS = "RELOAD_USER_SUCCESS";
 export const RELOAD_USER_ERROR = "RELOAD_USER_ERROR";
 
-export const SEND_CODE = "SEND_CODE";
-export const SEND_CODE_SUCCESS = "SEND_CODE_SUCCESS";
-export const SEND_CODE_ERROR = "SEND_CODE_ERROR";
-
-export const CONFIRM_CODE = "CONFIRM_CODE";
-export const CONFIRM_CODE_SUCCESS = "CONFIRM_CODE_SUCCESS";
-export const CONFIRM_CODE_ERROR = "CONFIRM_CODE_ERROR";
-
 export const LOGOUT_USER = "LOGOUT_USER";
 
 export interface UserLogin {
@@ -47,31 +39,6 @@ export interface UserRegisterError {
   type: typeof REGISTER_ERROR,
   payload: boolean
 }
-export interface SendCode {
-  type: typeof SEND_CODE,
-  payload: boolean
-}
-export interface SendCodeSuccess {
-  type: typeof SEND_CODE_SUCCESS,
-  payload: string
-}
-export interface SendCodeError {
-  type: typeof SEND_CODE_ERROR,
-  payload: boolean
-}
-export interface ConfirmCode {
-  type: typeof CONFIRM_CODE,
-  payload: boolean
-}
-export interface ConfirmCodeSuccess {
-  type: typeof CONFIRM_CODE_SUCCESS,
-  payload: string
-}
-export interface ConfirmCodeError {
-  type: typeof CONFIRM_CODE_ERROR,
-  payload: boolean
-}
-
 export interface ReloadUser {
   type: typeof RELOAD_USER,
   payload: boolean
@@ -96,12 +63,6 @@ export type UserDispatchTypes =
   | UserRegister 
   | UserRegisterSuccess
   | UserRegisterError
-  | SendCode
-  | SendCodeSuccess
-  | SendCodeError
-  | ConfirmCode
-  | ConfirmCodeSuccess
-  | ConfirmCodeError
   | ReloadUser
   | ReloadUserSuccess
   | ReloadUserError

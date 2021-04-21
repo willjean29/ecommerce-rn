@@ -41,9 +41,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({toast,setIsVisible}) => {
         // setIsVisible(false);
         // toast.current.show(MessagesToast.REGISTER_USER_SUCCESS);
       } catch (error) {
-        console.log(error);
         setIsVisible(false);
-        toast.current.show(MessagesToast.REGISTER_USER_ERROR);
+        if(error.toString()=== MessagesToast.REGISTER_FIREBASE_ERROR){
+          toast.current.show(MessagesToast.REGISTER_USER_ERROR);
+        }else{
+          toast.current.show(MessagesToast.REGISTER_ERROR);
+        }
       }
     }
   }
