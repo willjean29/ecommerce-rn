@@ -10,9 +10,11 @@ export interface UserContextI {
   validatioPhone: (setPhoneAuth: React.Dispatch<React.SetStateAction<boolean>>) => void;
   sendCode: (number:string, recaptcha: any) => Promise<string>;
   confirmCode: (verificationId: string, code: string) => Promise<boolean>;
-  reloadUser: () => void;
+  reloadUser: () => Promise<void>;
   registerPushNotification: () => Promise<string | undefined>;
   addCollectionData: (collection: string, doc: string, data: object) => Promise<void>;
   getCurrentUser: () => firebase.User
+  uploadAvatar: (uri: string) => Promise<firebase.storage.UploadTaskSnapshot>;
+  updatePhoto: () => Promise<void>;
   logout: () => Promise<void>;
 }

@@ -11,6 +11,8 @@ import {
   sendCodeAction, 
   singInAction, 
   singUpAction, 
+  updatePhotoAction, 
+  uploadAvatarAction, 
   validationPhoneAction 
 } from 'context/user/user.actions';
 import { RegisterDto } from 'context/user/dtos/register.dto';
@@ -30,9 +32,7 @@ const UserState: React.FC<UserStateProps> = ({children}) => {
 
   const [userState, dispatch] = useReducer(UserReducer, userInitialState);
 
-  const reloadUser = () => {
-    reloadUserActiion(dispatch);
-  }
+  const reloadUser = () => reloadUserActiion(dispatch);
   const singIn = (userDto: LoginDto) => singInAction(dispatch,userDto);
   const singUp = (userDto: RegisterDto) => singUpAction(dispatch, userDto);
   const validatioPhone = (setPhoneAuth: React.Dispatch<React.SetStateAction<boolean>>) => validationPhoneAction(setPhoneAuth);
@@ -41,6 +41,8 @@ const UserState: React.FC<UserStateProps> = ({children}) => {
   const registerPushNotification = () => registerForPushNotificationsAsync();
   const addCollectionData = (collection: string, doc: string, data: object) => addUserAction(dispatch,collection,doc,data);
   const getCurrentUser = () => getCurrentUserAction();
+  const uploadAvatar = (uri: string) => uploadAvatarAction(uri);
+  const updatePhoto = () => updatePhotoAction();
   const logout = () => logoutAction(dispatch,userInitialState);
 
   return (  
@@ -56,6 +58,8 @@ const UserState: React.FC<UserStateProps> = ({children}) => {
         registerPushNotification,
         addCollectionData,
         getCurrentUser,
+        uploadAvatar,
+        updatePhoto,
         logout
       }}
     >

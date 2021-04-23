@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from 'database/firebase';
-import { Collections } from 'utils/enums';
+import { Collections, FolderImages } from 'utils/enums';
 import { 
   LOGIN,
   LOGIN_SUCCESS,
@@ -22,7 +22,7 @@ import { UserStateI } from 'context/user/interfaces/userState.interface';
 
 
 
-export const reloadUserActiion = (dispatch: React.Dispatch<UserDispatchTypes>) => {
+export const reloadUserActiion = async(dispatch: React.Dispatch<UserDispatchTypes>) => {
  
   dispatch({
     type: RELOAD_USER,
@@ -31,19 +31,24 @@ export const reloadUserActiion = (dispatch: React.Dispatch<UserDispatchTypes>) =
   firebase.auth.onAuthStateChanged(async(user) => {
  
     if(user){
-      const {uid, displayName, email, phoneNumber, photoURL} = user as firebase.User;
-      await getCollectionlUser(dispatch);
-      const userCurrent: UserI = {
-        uid, 
-        displayName, 
-        email, 
-        phoneNumber, 
-        photoURL
+      const response = await firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).get();
+      if(response.data() !== undefined){
+        await getCollectionlUser(dispatch);
+      }else{
+        const {uid, displayName, email, phoneNumber, photoURL} = user as firebase.User;
+     
+        const userCurrent: UserI = {
+          uid, 
+          displayName, 
+          email, 
+          phoneNumber, 
+          photoURL
+        }
+        dispatch({
+          type: RELOAD_USER_SUCCESS,
+          payload: userCurrent
+        })
       }
-      dispatch({
-        type: RELOAD_USER_SUCCESS,
-        payload: userCurrent
-      })
     }else{
       dispatch({
         type: RELOAD_USER_ERROR,
@@ -152,27 +157,19 @@ export const addUserAction = async(dispatch: React.Dispatch<UserDispatchTypes>,c
 
 export const getCollectionlUser = async (dispatch: React.Dispatch<UserDispatchTypes>) => {
   try {
-    const response = await firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).get();
-    if(response.data() !== undefined){
-      const dataUser = response.data();
-      const userUpdate: UserI= {
-        email: dataUser?.email,
-        displayName: dataUser?.displayName,
-        phoneNumber: dataUser?.phoneNumber,
-        photoURL: dataUser?.photoURL,
-        uid: dataUser?.uid,
-        token: dataUser?.token,
-        createdAt: new Date(dataUser?.createdAt.seconds * 1000)
-      }
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: userUpdate
-      })
-      return;
-    }
+    firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).onSnapshot((snapshot) => {
+      updateDataUser(snapshot.data() as UserI, dispatch)
+    });
   } catch (error) {
     console.log(error);
   }
+}
+
+export const updateDataUser = (user: UserI, dispatch: React.Dispatch<UserDispatchTypes>) => {
+  dispatch({
+    type: REGISTER_SUCCESS,
+    payload: user
+  })
 }
 
 export const logoutAction = async(dispatch: React.Dispatch<UserDispatchTypes>, userInitialState: UserStateI) => {
@@ -186,4 +183,24 @@ export const logoutAction = async(dispatch: React.Dispatch<UserDispatchTypes>, u
     console.log(error);
   }
   
+}
+
+export const uploadAvatarAction = async(uri: string) =>{
+  const response = await fetch(uri);
+  const blob = await response.blob();
+  const ref = firebase.storage.ref().child(`${FolderImages.AVATARS}/${getCurrentUserAction().uid}`);
+  return ref.put(blob);
+}
+
+export const updatePhotoAction = async() => {
+  try {
+    const photo = await firebase.storage.ref(`${FolderImages.AVATARS}/${getCurrentUserAction().uid}`).getDownloadURL();
+    const update = {
+      photoURL: photo
+    }
+    await firebase.auth.currentUser?.updateProfile(update);
+    await firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).update(update);
+  } catch (error) {
+    console.log(error);
+  }
 }

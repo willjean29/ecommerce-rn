@@ -8,7 +8,7 @@ export interface MyMarketProps {
  
 const MyMarket: React.FC<MyMarketProps> = () => {
   const {logout,userState} = useContext(UserContext);
-  console.log(userState.user);
+  // console.log(userState.user);
   return (  
     <View>
       <Text>My Market</Text>

@@ -16,8 +16,14 @@ export enum Collections {
   USERS = "Users"
 }
 
+export enum FolderImages {
+  AVATARS = "avatars",
+  PRODUCTS = "products"
+}
+
 export enum MessagesToast{
   EMPTY = "Todos los campos son abligatorios",
+  // screen login and register
   EMAIL_ERROR = "Ingrese un email correcto",
   PASSWORD_LENGTH = "La contraseña debe tener 6 caracteres como minimo",
   COMPARE_PASSWORD = "Las contraseñas deben ser iguales",
@@ -28,12 +34,16 @@ export enum MessagesToast{
   LOGIN_SUCCESS = "Sesion iniciada con exito",
   LOGIN_ERROR = "Email o contraseña incorrecta",
   NUMBER_ERROR = "Ingrese un # de teléfono correcto",
-  CODE_CONFIRM_ERROR = "Ingrese un codigo válido"
+  CODE_CONFIRM_ERROR = "Ingrese un codigo válido",
+  // screen profile 
+  OPEN_GALERY_ERROR = "Se requiere permisos para acceder a la galeria",
+  OPEN_GALERY_EMPTY = "No se ha seleccionado una imagen"
 }
 
 export enum MessagesLoading{
   LOADING = "Cargando ...",
   LOAD_CONFIG = "Cargando Configuración",
   SINGIN = "Iniciando Sesión",
-  SINGUP = "Registrando Usuario"
+  SINGUP = "Registrando Usuario",
+  UPDATE_OPTION = "Actualizando datos"
 }

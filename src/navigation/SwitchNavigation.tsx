@@ -19,7 +19,7 @@ const SwitchNavigation: React.FC<SwitchNavigationProps> = () => {
     validatioPhone(setPhoneAuth);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1500);
   }, [])
 
   if(loading) {

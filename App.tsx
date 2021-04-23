@@ -21,11 +21,14 @@ function SwitchScreens() {
   const {userState, reloadUser} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    setLoading(true);
-    reloadUser();
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const getUserCurrent = async() => {
+      setLoading(true);
+      await reloadUser();
+      setTimeout(() => {
+        setLoading(false);
+      }, 2500);
+    }
+    getUserCurrent();
   }, [])
   if(loading){
     return (
