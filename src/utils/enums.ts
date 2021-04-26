@@ -37,7 +37,10 @@ export enum MessagesToast{
   CODE_CONFIRM_ERROR = "Ingrese un codigo válido",
   // screen profile 
   OPEN_GALERY_ERROR = "Se requiere permisos para acceder a la galeria",
-  OPEN_GALERY_EMPTY = "No se ha seleccionado una imagen"
+  OPEN_GALERY_EMPTY = "No se ha seleccionado una imagen",
+  VALUE_NO_CHANGE = "El valor no ha sido modificado",
+  VALUE_CHANGE = "Los datos se actulizaron cone exito",
+  VALUE_CHANGE_ERROR = "Error al actulizar datos"
 }
 
 export enum MessagesLoading{

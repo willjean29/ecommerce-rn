@@ -7,10 +7,15 @@ import {
   confirmCodeAction, 
   getCurrentUserAction, 
   logoutAction, 
+  reauthenticateAction, 
+  reauthenticateNumberAction, 
   reloadUserActiion, 
   sendCodeAction, 
   singInAction, 
   singUpAction, 
+  updateEmailAction, 
+  updateNameAction, 
+  updatePhoneNumberAction, 
   updatePhotoAction, 
   uploadAvatarAction, 
   validationPhoneAction 
@@ -43,6 +48,11 @@ const UserState: React.FC<UserStateProps> = ({children}) => {
   const getCurrentUser = () => getCurrentUserAction();
   const uploadAvatar = (uri: string) => uploadAvatarAction(uri);
   const updatePhoto = () => updatePhotoAction();
+  const updateName = (name: string) => updateNameAction(name);
+  const updateEmail = (name: string) => updateEmailAction(name);
+  const updatePhoneNumber = (number: string) => updatePhoneNumberAction(number);
+  const reauthenticate = (verificationId: string, code: string) => reauthenticateAction(verificationId,code);
+  const reauthenticateNumber = (verificationId: string, code: string) => reauthenticateNumberAction(verificationId,code);
   const logout = () => logoutAction(dispatch,userInitialState);
 
   return (  
@@ -60,6 +70,11 @@ const UserState: React.FC<UserStateProps> = ({children}) => {
         getCurrentUser,
         uploadAvatar,
         updatePhoto,
+        updateName,
+        updateEmail,
+        updatePhoneNumber,
+        reauthenticate,
+        reauthenticateNumber,
         logout
       }}
     >

@@ -102,6 +102,7 @@ export const singInAction = async(dispatch: React.Dispatch<UserDispatchTypes>, u
       type: LOGIN_ERROR,
       payload: true
     })
+    throw Error(error);
   }
   
 }
@@ -204,3 +205,61 @@ export const updatePhotoAction = async() => {
     console.log(error);
   }
 }
+
+export const updateNameAction = async(name: string) => {
+  try {
+    const update = {
+      displayName: name
+    }
+    await firebase.auth.currentUser?.updateProfile(update);
+    await firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).update(update);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updateEmailAction = async(email: string) => {
+  try {
+    await firebase.auth.currentUser?.updateEmail(email);
+    await firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).update({email});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const updatePhoneNumberAction = async(phoneNumber: string) => {
+  try {
+    await firebase.db.collection(Collections.USERS).doc(getCurrentUserAction().uid).update({phoneNumber});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const reauthenticateNumberAction = async(verificationId: string, code: string) => {
+  let result = false;
+  const credetials = firebase.getNumberCredentials(verificationId,code);
+  try {
+    const user = await firebase.auth.currentUser?.updatePhoneNumber(credetials);
+    result = true;
+    // console.log(user);
+  } catch (error) {
+    console.log(error);
+  }
+
+  return result;
+}
+
+export const reauthenticateAction = async(verificationId: string, code: string) => {
+  let result = false;
+  const credetials = firebase.getNumberCredentials(verificationId,code);
+  try {
+    const user = await firebase.auth.currentUser?.reauthenticateWithCredential(credetials);
+    result = true;
+    // console.log(user);
+  } catch (error) {
+    console.log(error);
+  }
+
+  return result;
+}
+

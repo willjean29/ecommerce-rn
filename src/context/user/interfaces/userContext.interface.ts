@@ -16,5 +16,10 @@ export interface UserContextI {
   getCurrentUser: () => firebase.User
   uploadAvatar: (uri: string) => Promise<firebase.storage.UploadTaskSnapshot>;
   updatePhoto: () => Promise<void>;
+  updateName: (name: string) => Promise<void>;
+  updateEmail: (email: string) => Promise<void>;
+  updatePhoneNumber: (number: string) => Promise<void>;
+  reauthenticate: (verificationId: string, code: string) => Promise<boolean>;
+  reauthenticateNumber: (verificationId: string, code: string) => Promise<boolean>;
   logout: () => Promise<void>;
 }
