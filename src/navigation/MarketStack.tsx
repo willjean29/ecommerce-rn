@@ -2,7 +2,6 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Market from 'screens/Market/Market';
 import Contact from 'screens/Market/Contact';
-import AddProduct from 'screens/Market/AddProduct';
 import MessageList from 'screens/Market/MessageList';
 import DetailProduct from 'screens/Market/DetailProduct';
 const Stack = createStackNavigator();
@@ -32,13 +31,6 @@ const MarketStack: React.FC<MarketStackProps> = () => {
         component={Contact}
         options={{
           title: "Contactar"
-        }}
-      />
-      <Stack.Screen
-        name="add-product"
-        component={AddProduct}
-        options={{
-          title: "Agregar Producto"
         }}
       />
       <Stack.Screen

@@ -2,7 +2,7 @@ import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { Image } from 'react-native-elements';
 import CodeInput from 'react-native-code-input';
-import { Route, useNavigation, NavigationState} from '@react-navigation/native';
+import { Route, useNavigation } from '@react-navigation/native';
 import UserContext from 'context/user/user.context';
 import Loading from 'components/Loading';
 import Logo from 'assets/img/logo.png';

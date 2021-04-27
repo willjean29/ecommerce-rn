@@ -25,14 +25,14 @@ const NavigationAuthenticate: React.FC<NavigationAuthenticateProps> = () => {
           inactiveTintColor: Colors.GRAYINACTIVE,
           activeTintColor: Colors.WHITE,
           style: {
-            borderTopRightRadius: 60,
-            borderTopLeftRadius: 60,
+            // borderTopRightRadius: 60,
+            // borderTopLeftRadius: 60,
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#128c7e",
-            paddingBottom: 10,
-            paddingTop: 10,
-            height: 60
+            backgroundColor: Colors.GREEN,
+            paddingBottom: 5,
+            paddingTop: 5,
+            height: 60,
           }
         }}
         screenOptions={({route}) => ({
