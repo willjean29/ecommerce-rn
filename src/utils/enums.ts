@@ -50,3 +50,10 @@ export enum MessagesLoading{
   SINGUP = "Registrando Usuario",
   UPDATE_OPTION = "Actualizando datos"
 }
+
+export enum CategoryTypes {
+  BOOKS = 1,
+  IDEAS = 2,
+  ARTICLES = 3,
+  SERVICES = 4
+}
