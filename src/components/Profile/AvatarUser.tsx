@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import * as ImagePicker from 'expo-image-picker'; 
+import { Avatar } from 'react-native-elements'; 
 import UserContext from 'context/user/user.context';
-import { Colors, FolderImages, MessagesToast } from 'utils/enums';
+import { Colors, MessagesToast } from 'utils/enums';
 import UserDefault from 'assets/img/avatar.jpg';
+import { handleOpenGalery } from 'utils/utils';
 
 export interface AvatarUserProps {
   toast: React.MutableRefObject<any>
@@ -13,29 +13,19 @@ export interface AvatarUserProps {
  
 const AvatarUser: React.FC<AvatarUserProps> = ({toast,setIsLoading}) => {
   const {uploadAvatar,updatePhoto,userState} = useContext(UserContext);
-  const handleOpenGalery = async() => {
-    const requestPermissions = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if(!requestPermissions.granted){
-      toast.current.show(MessagesToast.OPEN_GALERY_ERROR);
-      return;
-    }
-    const mediaLibrary = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true
-    });
-
-    if(mediaLibrary.cancelled){
-      toast.current.show(MessagesToast.OPEN_GALERY_EMPTY);
-      return;
-    }
-    console.log(mediaLibrary.uri);
-    setIsLoading(true);
-    try {
-      await uploadAvatar(mediaLibrary.uri);
-      await updatePhoto();
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
+  const handleSelectImage = async() => {
+    const uri = await handleOpenGalery(toast);
+    if(uri){
+      setIsLoading(true);
+      try {
+        await uploadAvatar(uri);
+        await updatePhoto();
+        setIsLoading(false);
+        toast.current.show(MessagesToast.VALUE_CHANGE)
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
     }
   }
 
@@ -54,7 +44,7 @@ const AvatarUser: React.FC<AvatarUserProps> = ({toast,setIsLoading}) => {
       >
         <Avatar.Accessory
           containerStyle={styles.containerIcon}
-          onPress={handleOpenGalery}
+          onPress={handleSelectImage}
           size={30}
         />
       </Avatar>

@@ -5,4 +5,5 @@ export interface AddProductDto {
   rating: number;
   images: string[];
   category: number;
+  createdBy: string;
 }

@@ -5,11 +5,13 @@ export enum Colors {
   GRAYINACTIVE = "#DDD",
   GREENLIGHT = "#25D366",
   BLACK = "#000",
-  GREEN_OPACITY = "rgba(37,211,106, 0.6)"
+  GREEN_OPACITY = "rgba(37,211,106, 0.6)",
+  GRAY_OPACITY = "#757575"
 }
 
 export enum Length {
-  PASSWORD = 6
+  PASSWORD = 6,
+  IMAGES_LOAD = 4
 }
 
 export enum Collections {
@@ -40,7 +42,11 @@ export enum MessagesToast{
   OPEN_GALERY_EMPTY = "No se ha seleccionado una imagen",
   VALUE_NO_CHANGE = "El valor no ha sido modificado",
   VALUE_CHANGE = "Los datos se actulizaron cone exito",
-  VALUE_CHANGE_ERROR = "Error al actulizar datos"
+  VALUE_CHANGE_ERROR = "Error al actulizar datos",
+  // screen mymarket
+  EMPTY_RATING = "Ingrese una calificación para el producto",
+  EMPTY_IMAGES = "Debe cargar una imagen como mínimo",
+  EMPTY_CATEGORY = "Seleccione una categoría para el producto"
 }
 
 export enum MessagesLoading{
@@ -48,7 +54,8 @@ export enum MessagesLoading{
   LOAD_CONFIG = "Cargando Configuración",
   SINGIN = "Iniciando Sesión",
   SINGUP = "Registrando Usuario",
-  UPDATE_OPTION = "Actualizando datos"
+  UPDATE_OPTION = "Actualizando datos",
+  ADD_PRODUCT = "Agregando Producto"
 }
 
 export enum CategoryTypes {

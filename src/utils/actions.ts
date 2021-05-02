@@ -2,7 +2,10 @@ import React from 'react';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
+import uuid from 'random-uuid-v4';
 import firebase from 'database/firebase';
+import { fileToBlob } from 'utils/utils';
+import { FolderImages } from 'utils/enums';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -48,9 +51,24 @@ export const addRegisterCollection = async(collection: string, doc: string, data
     data: null
   };
   try {
-    await firebase.db.collection(collection).doc(doc).set(data);
+    await firebase.db.collection(collection).doc(doc).set(data,{merge: true});
     result.statusResponse = true;
   } catch (error) {
     result.statusResponse = false;  
   }
+}
+
+export const uploadImagesServer = async(images: string[],folderName: string) => {
+  const imagesUrl = [] as string[];
+  await Promise.all(
+    images.map(async(uri) => {
+      const name = uuid();
+      const blod = await fileToBlob(uri);
+      const ref = firebase.storage.ref(folderName).child(name);
+      await ref.put(blod);
+      const photoName: string = await firebase.storage.ref(`${folderName}/${name}`).getDownloadURL();
+      imagesUrl.push(photoName);
+    })
+  )
+  return imagesUrl;
 }

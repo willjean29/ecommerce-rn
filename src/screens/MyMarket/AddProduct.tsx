@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Toast from 'react-native-easy-toast';
 import AddProductForm from 'components/MyMarket/AddProductForm';
-import { Colors } from 'utils/enums';
+import { Colors, MessagesLoading } from 'utils/enums';
+import Loading from 'components/Loading';
 
 export interface AddProductProps {
   
 }
  
 const AddProduct: React.FC<AddProductProps> = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toast = useRef(null as any);
   return (  
     <KeyboardAwareScrollView style={styles.viewAddProduct} showsVerticalScrollIndicator={false}>
-      <AddProductForm/>
+      <AddProductForm
+        toast={toast}
+        setIsVisible={setIsVisible}
+      />
+      <Toast ref={toast} position="bottom" opacity={0.8}/>
+      <Loading
+        isVisible={isVisible}
+        text={MessagesLoading.SINGIN}
+      />
     </KeyboardAwareScrollView>
   );
 }
