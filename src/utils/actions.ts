@@ -58,6 +58,15 @@ export const addRegisterCollection = async(collection: string, doc: string, data
   }
 }
 
+export const addDataCollection = async(collection: string, data: object) => {
+  try {
+    await firebase.db.collection(collection).add(data);
+    return true;
+  } catch (error) {
+    return false;  
+  }
+}
+
 export const uploadImagesServer = async(images: string[],folderName: string) => {
   const imagesUrl = [] as string[];
   await Promise.all(

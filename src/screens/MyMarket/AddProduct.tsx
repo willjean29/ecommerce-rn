@@ -22,7 +22,7 @@ const AddProduct: React.FC<AddProductProps> = () => {
       <Toast ref={toast} position="bottom" opacity={0.8}/>
       <Loading
         isVisible={isVisible}
-        text={MessagesLoading.SINGIN}
+        text={MessagesLoading.ADD_PRODUCT}
       />
     </KeyboardAwareScrollView>
   );

@@ -6,7 +6,9 @@ export enum Colors {
   GREENLIGHT = "#25D366",
   BLACK = "#000",
   GREEN_OPACITY = "rgba(37,211,106, 0.6)",
-  GRAY_OPACITY = "#757575"
+  GRAY_OPACITY = "#757575",
+  ORANGE = "#FFA000",
+  RED = "#D32F2F"
 }
 
 export enum Length {
@@ -15,7 +17,8 @@ export enum Length {
 }
 
 export enum Collections {
-  USERS = "Users"
+  USERS = "Users",
+  PRODUCTS = "Products"
 }
 
 export enum FolderImages {
@@ -46,7 +49,9 @@ export enum MessagesToast{
   // screen mymarket
   EMPTY_RATING = "Ingrese una calificación para el producto",
   EMPTY_IMAGES = "Debe cargar una imagen como mínimo",
-  EMPTY_CATEGORY = "Seleccione una categoría para el producto"
+  EMPTY_CATEGORY = "Seleccione una categoría para el producto",
+  ADD_PRODUCT_SUCCESS = "Se agrego el producto correctamente",
+  ADD_PRODUCT_ERROR = "Error al agregar el producto"
 }
 
 export enum MessagesLoading{

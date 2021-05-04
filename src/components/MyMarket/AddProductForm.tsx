@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Input, AirbnbRating, Button, Icon, Avatar } from 'react-native-elements';
+import { View, Text, StyleSheet } from 'react-native';
+import { Input, AirbnbRating, Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 import SelectCategory from 'components/MyMarket/SelectCategory';
 import SelectImages from 'components/MyMarket/SelectImages';
 import { useForm } from 'hooks/useForm';
 import { AddProductDto } from 'context/market/dtos/addProduct.dto';
 import UserContext from 'context/user/user.context';
-import { Colors, MessagesToast } from 'utils/enums';
+import { Collections, Colors, FolderImages, MessagesToast } from 'utils/enums';
+import { addDataCollection, uploadImagesServer } from 'utils/actions';
 
 
 export interface AddProductFormProps {
@@ -16,6 +18,7 @@ export interface AddProductFormProps {
  
 const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => {
   const {userState} = useContext(UserContext);
+  const navigate = useNavigation();
   const [uriImages, setUriImages] = useState<string[]>([]);
   const {dataForm,onChangeValue} = useForm<AddProductDto>({
     title: "",
@@ -26,17 +29,28 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
     category: 0,
     createdBy: userState.user?.uid as string
   })
-  const handleAddProduct = () => {
+  const handleAddProduct = async() => {
     if(!dataForm.title || !dataForm.description || !dataForm.price){
       toast.current.show(MessagesToast.EMPTY);
     }else if(!dataForm.rating){
       toast.current.show(MessagesToast.EMPTY_RATING);
-    }else if(!dataForm.images.length){
+    }else if(!uriImages.length){
       toast.current.show(MessagesToast.EMPTY_IMAGES);
     }else if(!dataForm.category){
       toast.current.show(MessagesToast.EMPTY_CATEGORY);
     }else{
-      console.log("agregar producto");
+      setIsVisible(true);
+      try {
+        console.log("agregar producto");
+        const images = await uploadImagesServer(uriImages,FolderImages.PRODUCTS);
+        await addDataCollection(Collections.PRODUCTS, {...dataForm, images});
+        setIsVisible(false);
+        toast.current.show(MessagesToast.ADD_PRODUCT_SUCCESS);
+        navigate.navigate("my-market");
+      } catch (error) {
+        setIsVisible(false);
+        toast.current.show(MessagesToast.ADD_PRODUCT_ERROR);
+      }
     }
   } 
   return (  
@@ -63,7 +77,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
         keyboardType="number-pad"
         labelStyle={styles.txtLabel}
         maxLength={7}
-        onChangeText={(text: string) => onChangeValue(text,"price")}
+        onChangeText={(text: string) => onChangeValue(parseFloat(text),"price")}
       />
       <Text style={styles.txtTitle}>
         Calidad del Producto o Servicio

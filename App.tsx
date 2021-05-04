@@ -4,6 +4,7 @@ import Loading from './src/components/Loading';
 import NavigationNoAuthenticate from './src/navigation/NavigationNoAuthenticate';
 import SwitchNavigation from './src/navigation/SwitchNavigation';
 import UserState from './src/context/user/user.state';
+import MarketState from './src/context/market/market.state';
 import UserContext from './src/context/user/user.context';
 import {MessagesLoading} from './src/utils/enums';
 LogBox.ignoreLogs(["Setting a timer"]);
@@ -12,7 +13,9 @@ LogBox.ignoreAllLogs();
 export default function App() {
   return (
     <UserState>
-      <SwitchScreens/>
+      <MarketState>
+        <SwitchScreens/>
+      </MarketState>
     </UserState>
   )
 }
