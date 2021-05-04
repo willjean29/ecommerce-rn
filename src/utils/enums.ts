@@ -51,7 +51,11 @@ export enum MessagesToast{
   EMPTY_IMAGES = "Debe cargar una imagen como mínimo",
   EMPTY_CATEGORY = "Seleccione una categoría para el producto",
   ADD_PRODUCT_SUCCESS = "Se agrego el producto correctamente",
-  ADD_PRODUCT_ERROR = "Error al agregar el producto"
+  ADD_PRODUCT_ERROR = "Error al agregar el producto",
+  UPDATE_PRODUCT_SUCCESS = "Producto actulizado correctamente",
+  UPDATE_PRODUCT_ERROR = "Error al actualizar el producto",
+  DELETE_PRODUCT_SUCCESS = "Producto eliminado correctamente",
+  DELETE_PRODUCT_ERROR = "Error al eliminar poducto"
 }
 
 export enum MessagesLoading{
@@ -60,7 +64,9 @@ export enum MessagesLoading{
   SINGIN = "Iniciando Sesión",
   SINGUP = "Registrando Usuario",
   UPDATE_OPTION = "Actualizando datos",
-  ADD_PRODUCT = "Agregando Producto"
+  ADD_PRODUCT = "Agregando Producto",
+  UPDATE_PRODUCT = "Actualizando Producto",
+  DELETE_PRODUCT = "Eliminando Producto"
 }
 
 export enum CategoryTypes {

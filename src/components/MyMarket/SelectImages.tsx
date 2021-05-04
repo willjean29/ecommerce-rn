@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { Avatar, Icon } from 'react-native-elements';
 import { handleOpenGalery } from 'utils/utils';
 import { Colors, Length } from 'utils/enums';
@@ -70,6 +70,7 @@ const SelectImages: React.FC<SelectImagesProps> = ({uriImages,setUriImages,toast
               source={{uri: uri}}
               size="large"
               avatarStyle={styles.imageProduct}
+              renderPlaceholderContent={<ActivityIndicator size="large" color={Colors.GREEN}/>}
               key={index}
               onPress={() => deleteImage(uri)}
             />

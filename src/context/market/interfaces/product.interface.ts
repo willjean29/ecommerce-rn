@@ -6,5 +6,6 @@ export interface ProductI {
   images: string[];
   category: number;
   createdBy: string;
+  createdAt: Date;
   uid: string
 }

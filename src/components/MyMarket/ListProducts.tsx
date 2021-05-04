@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { Image, Icon } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 import { ProductI } from 'context/market/interfaces/product.interface';
-import { Colors } from 'utils/enums';
+import { Collections, Colors, MessagesToast } from 'utils/enums';
+import { deleteDataCollection } from 'utils/actions';
 export interface ListProductsProps {
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setReloadProducts: React.Dispatch<React.SetStateAction<boolean>>;
+  toast: React.MutableRefObject<any>;
   myProducts: ProductI[]
 }
  
-const ListProducts: React.FC<ListProductsProps> = ({myProducts}) => {
+const ListProducts: React.FC<ListProductsProps> = ({myProducts,toast,setIsVisible,setReloadProducts}) => {
   return (  
     <View style={styles.viewListProducts}>
       <FlatList
         data={myProducts}
-        renderItem={({item}) => <ItemProduct product={item}/>}
+        renderItem={({item}) => (
+          <ItemProduct 
+            product={item}
+            toast={toast}
+            setIsVisible={setIsVisible}
+            setReloadProducts={setReloadProducts}
+          />
+        )}
         keyExtractor={(item, number) => item.uid}
       />
     </View>
@@ -20,10 +32,46 @@ const ListProducts: React.FC<ListProductsProps> = ({myProducts}) => {
 }
 
 interface ItemProductProps {
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setReloadProducts: React.Dispatch<React.SetStateAction<boolean>>;
+  toast: React.MutableRefObject<any>;
   product: ProductI
 }
 
-const ItemProduct: React.FC<ItemProductProps> = ({product}) => {
+const ItemProduct: React.FC<ItemProductProps> = ({product,toast,setIsVisible,setReloadProducts}) => {
+  const navigation = useNavigation();
+  const deleteImage = () => {
+    Alert.alert(
+      "Eliminar Producto",
+      "¿Desea eliminar esta producto?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel"
+        },
+        {
+          text: "Si, eliminar",
+          onPress: async() => {
+            setIsVisible(true);
+            try {
+              await deleteDataCollection(Collections.PRODUCTS,product.uid);
+              setIsVisible(false);
+              setReloadProducts(true);
+              toast.current.show(MessagesToast.DELETE_PRODUCT_SUCCESS)
+            } catch (error) {
+              console.log(error);
+              setIsVisible(false);
+              toast.current.show(MessagesToast.DELETE_PRODUCT_ERROR)
+            }
+           
+          }
+        }
+      ],
+      {
+        cancelable: true
+      }
+    )
+  }
   return (
     <View style={styles.viewItemProduct}>
       <Image
@@ -54,14 +102,17 @@ const ItemProduct: React.FC<ItemProductProps> = ({product}) => {
             name="pencil-outline"
             color={Colors.ORANGE}
             containerStyle={styles.iconEdit}
-            onPress={() => console.log("editar producto")}
+            onPress={() => navigation.navigate("edit-product",{
+              uid: product.uid,
+              product
+            })}
           />
           <Icon
             type="material-community"
             name="trash-can-outline"
             color={Colors.RED}
             containerStyle={styles.iconDelete}
-            onPress={() => console.log("eliminar producto")}
+            onPress={() => deleteImage()}
           />
         </View>
       </View>
@@ -74,6 +125,7 @@ const styles = StyleSheet.create({
   },
   viewItemProduct: {
     flexDirection: "row",
+    alignItems: "center",
     borderRadius: 10,
     borderWidth: 1.5,
     borderColor: Colors.GRAYINACTIVE,
@@ -82,8 +134,8 @@ const styles = StyleSheet.create({
   },
   imageProduct: {
     borderRadius: 10,
-    height: 150,
-    width: 140
+    width: 140,
+    flex: 1,
   },
   viewInfoProduct: {
     flex: 1, 

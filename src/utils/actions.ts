@@ -71,13 +71,26 @@ export const uploadImagesServer = async(images: string[],folderName: string) => 
   const imagesUrl = [] as string[];
   await Promise.all(
     images.map(async(uri) => {
-      const name = uuid();
-      const blod = await fileToBlob(uri);
-      const ref = firebase.storage.ref(folderName).child(name);
-      await ref.put(blod);
-      const photoName: string = await firebase.storage.ref(`${folderName}/${name}`).getDownloadURL();
-      imagesUrl.push(photoName);
+      if(uri.includes("firebasestorage")){
+        imagesUrl.push(uri);
+      }else{
+        const name = uuid();
+        const blod = await fileToBlob(uri);
+        const ref = firebase.storage.ref(folderName).child(name);
+        await ref.put(blod);
+        const photoName: string = await firebase.storage.ref(`${folderName}/${name}`).getDownloadURL();
+        imagesUrl.push(photoName);
+      }
     })
   )
   return imagesUrl;
+}
+
+export const deleteDataCollection = async(collection: string, doc: string) => {
+  try {
+    await firebase.db.collection(collection).doc(doc).delete();
+    return true;
+  } catch (error) {
+    return false;
+  }
 }

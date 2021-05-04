@@ -6,4 +6,5 @@ export interface AddProductDto {
   images: string[];
   category: number;
   createdBy: string;
+  createdAt: Date;
 }

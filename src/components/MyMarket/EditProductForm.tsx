@@ -8,27 +8,28 @@ import { useForm } from 'hooks/useForm';
 import { AddProductDto } from 'context/market/dtos/addProduct.dto';
 import UserContext from 'context/user/user.context';
 import { Collections, Colors, FolderImages, MessagesToast } from 'utils/enums';
-import { addDataCollection, uploadImagesServer } from 'utils/actions';
+import { addDataCollection, addRegisterCollection, uploadImagesServer } from 'utils/actions';
+import { ProductI } from 'context/market/interfaces/product.interface';
 
-
-export interface AddProductFormProps {
+export interface EdirProductFormProps {
   toast: React.MutableRefObject<any>;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  product: ProductI;
 }
  
-const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => {
+const EdirProductForm: React.FC<EdirProductFormProps> = ({toast,setIsVisible,product}) => {
   const {userState} = useContext(UserContext);
   const navigate = useNavigation();
-  const [uriImages, setUriImages] = useState<string[]>([]);
+  const [uriImages, setUriImages] = useState<string[]>(product.images);
   const {dataForm,onChangeValue} = useForm<AddProductDto>({
-    title: "",
-    description: "",
-    price: 0,
-    rating: 0,
-    images: [],
-    category: 0,
-    createdBy: userState.user?.uid as string,
-    createdAt: new Date(),
+    title: product.title,
+    description: product.description,
+    price: product.price,
+    rating: product.rating,
+    images: product.images,
+    category: product.category,
+    createdBy: product.createdBy,
+    createdAt: product.createdAt,
   })
   const handleAddProduct = async() => {
     if(!dataForm.title || !dataForm.description || !dataForm.price){
@@ -40,17 +41,18 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
     }else if(!dataForm.category){
       toast.current.show(MessagesToast.EMPTY_CATEGORY);
     }else{
+      console.log({...dataForm,uriImages});
       setIsVisible(true);
       try {
-        console.log("agregar producto");
+        console.log("actualizando producto");
         const images = await uploadImagesServer(uriImages,FolderImages.PRODUCTS);
-        await addDataCollection(Collections.PRODUCTS, {...dataForm, images});
+        await addRegisterCollection(Collections.PRODUCTS,product.uid, {...dataForm, images});
         setIsVisible(false);
-        toast.current.show(MessagesToast.ADD_PRODUCT_SUCCESS);
+        toast.current.show(MessagesToast.UPDATE_PRODUCT_SUCCESS);
         navigate.navigate("my-market");
       } catch (error) {
         setIsVisible(false);
-        toast.current.show(MessagesToast.ADD_PRODUCT_ERROR);
+        toast.current.show(MessagesToast.UPDATE_PRODUCT_ERROR);
       }
     }
   } 
@@ -58,6 +60,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
     <View style={styles.AddProductForm}>
       <Input
         placeholder="Xiaomi Pocco X3"
+        defaultValue={product.title}
         label="Título"
         labelStyle={styles.txtLabel}
         maxLength={30}
@@ -65,6 +68,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
       />
       <Input
         placeholder="SmartPhone de gama alta ..."
+        defaultValue={product.description}
         inputContainerStyle={styles.inputContainerArea}
         multiline
         label="Descripcion"
@@ -74,6 +78,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
       />
       <Input
         placeholder="1068.50"
+        defaultValue={product.price.toString()}
         label="Precio"
         keyboardType="number-pad"
         labelStyle={styles.txtLabel}
@@ -87,7 +92,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
         count={5}
         reviews={["Deficiente", "Malo", "Normal", "Bueno", "Excelente"]}
         size={40}
-        defaultRating={0}
+        defaultRating={dataForm.rating}
         onFinishRating={(value: number) => onChangeValue(value,"rating")}
       />
 
@@ -103,7 +108,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
       />
 
       <Button
-        title="Agregar Nuevo Producto"
+        title="Actualizar Producto"
         buttonStyle={styles.btnAddProduct}
         containerStyle={styles.containerBtnAddProduct}
         onPress={handleAddProduct}
@@ -155,4 +160,4 @@ const styles = StyleSheet.create({
   }
 })
  
-export default AddProductForm;
+export default EdirProductForm;

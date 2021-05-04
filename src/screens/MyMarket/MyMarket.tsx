@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect, useCallback, useRef, useState } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import Toast from 'react-native-easy-toast';
 import ListProducts from 'components/MyMarket/ListProducts';
 import SpinnerLoading from 'components/SpinnerLoading';
+import Loading from 'components/Loading';
 import UserContext from 'context/user/user.context';
 import MarketContext from 'context/market/market.context';
-import { Colors } from 'utils/enums';
+import { Colors, MessagesLoading } from 'utils/enums';
 
 export interface MyMarketProps {
   
@@ -15,15 +17,19 @@ export interface MyMarketProps {
 const MyMarket: React.FC<MyMarketProps> = () => {
   const {logout,userState} = useContext(UserContext);
   const {loadMyPorducts,marketState} = useContext(MarketContext);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [reloadProducts, setReloadProducts] = useState<boolean>(false);
   const navigation = useNavigation();
+  const toast = useRef(null as any);
 
   useFocusEffect(
     useCallback(() => {
       const getMyProducts = async() => {
         await loadMyPorducts(userState.user?.uid as string);
+        setReloadProducts(false);
       }
       getMyProducts();
-    }, [])
+    }, [reloadProducts])
   );
 
 
@@ -44,11 +50,16 @@ const MyMarket: React.FC<MyMarketProps> = () => {
               name="cart-plus"
               color={Colors.GREENLIGHT}
               size={120}
+              containerStyle={styles.iconCartEmpty}
+              onPress={() => navigation.navigate("add-product")}
             />
           </View>
         ) : (
           <ListProducts
             myProducts={marketState.myMarket}
+            toast={toast}
+            setIsVisible={setIsVisible}
+            setReloadProducts={setReloadProducts}
           />
         )
       }
@@ -59,6 +70,11 @@ const MyMarket: React.FC<MyMarketProps> = () => {
         color={Colors.GREEN}
         containerStyle={styles.constinerIcon}
         onPress={() => navigation.navigate("add-product")}
+      />
+      <Toast ref={toast} position="center" opacity={0.8}/>
+      <Loading
+        isVisible={isVisible}
+        text={MessagesLoading.DELETE_PRODUCT}
       />
     </View>
   );
@@ -77,7 +93,14 @@ const styles = StyleSheet.create({
   },
   conatinerEmpty: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  iconCartEmpty: {
+    borderWidth: 3,
+    borderColor: Colors.GREENLIGHT,
+    alignSelf: "center",
+    borderRadius: 100,
+    padding: 20
   }
 })
  

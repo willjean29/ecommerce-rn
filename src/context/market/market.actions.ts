@@ -8,6 +8,7 @@ import {
   LOAD_MYPRODUCTS_ERROR,
   MarketDispatchTypes 
 } from 'context/market/market.types';
+
 export const loadMyProductsAction = async(id: string, dispatch: React.Dispatch<MarketDispatchTypes>) => {
   dispatch({
     type: LOAD_MYPRODUCTS,
@@ -29,13 +30,13 @@ export const loadMyProductsAction = async(id: string, dispatch: React.Dispatch<M
 
 export const getMyProducts = async(id: string) => {
   let myProducts = [] as ProductI[];
-  const response = await firebase.db.collection(Collections.PRODUCTS).where(
-    "createdBy", "==",id
-  ).get();
+  const response = await firebase.db.collection(Collections.PRODUCTS).orderBy("createdAt","desc").get();
   response.forEach((item) => {
-    const product = item.data() as ProductI;
-    product.uid = item.id;
-    myProducts.push(product);
+    if(item.data().createdBy === id){
+      const product = item.data() as ProductI;
+      product.uid = item.id;
+      myProducts.push(product);
+    }
   })
   return await Promise.all(myProducts);
 }
