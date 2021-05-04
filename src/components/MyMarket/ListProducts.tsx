@@ -93,27 +93,29 @@ const ItemProduct: React.FC<ItemProductProps> = ({product,toast,setIsVisible,set
             )
           }
         </Text>
-        <Text style={styles.txtPrice}>
-          $ {product.price}
-        </Text>
-        <View style={styles.viewButtons}>
-          <Icon
-            type="material-community"
-            name="pencil-outline"
-            color={Colors.ORANGE}
-            containerStyle={styles.iconEdit}
-            onPress={() => navigation.navigate("edit-product",{
-              uid: product.uid,
-              product
-            })}
-          />
-          <Icon
-            type="material-community"
-            name="trash-can-outline"
-            color={Colors.RED}
-            containerStyle={styles.iconDelete}
-            onPress={() => deleteImage()}
-          />
+        <View style={styles.viewFooterProduct}>
+          <Text style={styles.txtPrice}>
+            $ {product.price}
+          </Text>
+          <View style={styles.viewButtons}>
+            <Icon
+              type="material-community"
+              name="pencil-outline"
+              color={Colors.ORANGE}
+              containerStyle={styles.iconEdit}
+              onPress={() => navigation.navigate("edit-product",{
+                uid: product.uid,
+                product
+              })}
+            />
+            <Icon
+              type="material-community"
+              name="trash-can-outline"
+              color={Colors.RED}
+              containerStyle={styles.iconDelete}
+              onPress={() => deleteImage()}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -140,31 +142,35 @@ const styles = StyleSheet.create({
   viewInfoProduct: {
     flex: 1, 
     justifyContent: "center",
+    marginLeft: 20
   },
   txtTitle: {
     marginTop: 10,
     fontSize: 18,
     color: Colors.GREEN,
     fontWeight: "bold",
-    textAlign: "center"
   },
   txtDescription: {
-    paddingHorizontal: 10,
+    paddingRight: 10,
     marginVertical: 5,
-    textAlign: "center",
     fontSize: 14,
     color: Colors.GRAY_OPACITY
   },
+  viewFooterProduct:{
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
   txtPrice: {
     fontSize: 16,
-    color: Colors.GREEN,
-    textAlign: "center"
+    color: Colors.GREENLIGHT,
+    fontWeight: "bold"
   },
   viewButtons: {
     flexDirection: "row",
     justifyContent: "center",
     marginVertical: 10,
-
+    marginRight: 10
   },
   iconEdit: {
     borderWidth: 1,
