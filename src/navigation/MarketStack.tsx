@@ -16,7 +16,8 @@ const MarketStack: React.FC<MarketStackProps> = () => {
         name="market"
         component={Market}
         options={{
-          title: "Tienda"
+          title: "Tienda",
+          headerShown: false
         }}
       />
       <Stack.Screen

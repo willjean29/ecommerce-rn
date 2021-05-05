@@ -70,6 +70,7 @@ export enum MessagesLoading{
 }
 
 export enum CategoryTypes {
+  DEFAULT = 0,
   BOOKS = 1,
   IDEAS = 2,
   ARTICLES = 3,

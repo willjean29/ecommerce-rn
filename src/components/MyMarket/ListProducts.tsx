@@ -77,7 +77,7 @@ const ItemProduct: React.FC<ItemProductProps> = ({product,toast,setIsVisible,set
       <Image
         resizeMode="cover"
         source={{uri: product.images[0]}}
-        style={styles.imageProduct}
+        containerStyle={styles.imageProduct}
         PlaceholderContent={<ActivityIndicator size="large" color={Colors.GREEN}/>}
       />
       <View style={styles.viewInfoProduct}>
@@ -86,8 +86,8 @@ const ItemProduct: React.FC<ItemProductProps> = ({product,toast,setIsVisible,set
         </Text>
         <Text style={styles.txtDescription}>
           {
-            product.description.length > 40 ? (
-              `${product.description.substr(0,40)} ...`
+            product.description.length > 65 ? (
+              `${product.description.substr(0,65)} ...`
             ) : (
               product.description
             )
@@ -129,20 +129,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
-    borderWidth: 1.5,
-    borderColor: Colors.GRAYINACTIVE,
     marginHorizontal: 10,
     marginVertical: 5
   },
   imageProduct: {
-    borderRadius: 10,
-    width: 140,
-    flex: 1,
+    borderRadius: 100,
+    width: 100,
+    height: 100,
+    elevation: 7
   },
   viewInfoProduct: {
     flex: 1, 
     justifyContent: "center",
-    marginLeft: 20
+    marginLeft: 15
   },
   txtTitle: {
     marginTop: 10,
@@ -169,7 +168,7 @@ const styles = StyleSheet.create({
   viewButtons: {
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical: 10,
+    marginVertical: 5,
     marginRight: 10
   },
   iconEdit: {

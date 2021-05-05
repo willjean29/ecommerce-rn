@@ -69,7 +69,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({toast,setIsVisible}) => 
         multiline
         label="Descripcion"
         labelStyle={styles.txtLabel}
-        maxLength={100}
+        maxLength={120}
         onChangeText={(text: string) => onChangeValue(text,"description")}
       />
       <Input

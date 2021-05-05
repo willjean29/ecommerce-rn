@@ -1,7 +1,7 @@
-import { AddProductDto } from 'context/market/dtos/addProduct.dto';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { Icon } from 'react-native-elements';
+import { AddProductDto } from 'context/market/dtos/addProduct.dto';
 import { CategoryTypes, Colors } from 'utils/enums';
 
 export interface SelectedCategoryProps {
