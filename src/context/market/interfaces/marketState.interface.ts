@@ -1,4 +1,4 @@
-import { ProductI } from "./product.interface";
+import { ProductI } from "context/market/interfaces/product.interface";
 
 export interface MarketStateI {
   market: ProductI[] | null;

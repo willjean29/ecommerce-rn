@@ -1,3 +1,4 @@
+import { UserI } from "context/user/interfaces/user.interface";
 export interface ProductI {
   title: string;
   description: string;
@@ -7,5 +8,6 @@ export interface ProductI {
   category: number;
   createdBy: string;
   createdAt: Date;
-  uid: string
+  uid: string;
+  user?: UserI
 }

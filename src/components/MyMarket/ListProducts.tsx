@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert } from 'react-native';
-import { Image, Icon } from 'react-native-elements';
+import { Image, Icon, Avatar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { ProductI } from 'context/market/interfaces/product.interface';
 import { Collections, Colors, MessagesToast } from 'utils/enums';
@@ -74,11 +74,12 @@ const ItemProduct: React.FC<ItemProductProps> = ({product,toast,setIsVisible,set
   }
   return (
     <View style={styles.viewItemProduct}>
-      <Image
-        resizeMode="cover"
+      <Avatar
         source={{uri: product.images[0]}}
+        rounded
+        size={100}
         containerStyle={styles.imageProduct}
-        PlaceholderContent={<ActivityIndicator size="large" color={Colors.GREEN}/>}
+        renderPlaceholderContent={<ActivityIndicator size="large" color={Colors.GREEN}/>}
       />
       <View style={styles.viewInfoProduct}>
         <Text style={styles.txtTitle}>
@@ -133,9 +134,6 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   imageProduct: {
-    borderRadius: 100,
-    width: 100,
-    height: 100,
     elevation: 7
   },
   viewInfoProduct: {

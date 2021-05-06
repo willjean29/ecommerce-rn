@@ -35,7 +35,10 @@ const MyMarket: React.FC<MyMarketProps> = () => {
 
   if(!marketState.myMarket){
     return (
-      <SpinnerLoading/>
+      <>
+        <StatusBar backgroundColor={Colors.GREEN}/>
+        <SpinnerLoading/>
+      </>
     )
   }
 

@@ -1,7 +1,7 @@
-import { MarketStateI } from "./marketState.interface";
+import { MarketStateI } from "context/market/interfaces/marketState.interface";
 
 export interface MarketContextI {
   marketState: MarketStateI;
-  loadProducts: () => void;
+  loadAllProducts: () => Promise<void>;
   loadMyPorducts: (id: string) => Promise<void>;
 }
