@@ -51,9 +51,30 @@ export const loadProductsAction = async(dispatch: React.Dispatch<MarketDispatchT
       payload: true
     })
   }
-
 }
 
+export const loadProductsCategoryAction = async(category: number,dispatch: React.Dispatch<MarketDispatchTypes>) => {
+
+  dispatch({
+    type: LOAD_PRODUCTS,
+    payload: true
+  })
+  try {
+    const products = await getProductsCategory(category);
+    const productsByCategory = await getCreatedByProduct(products);
+
+    dispatch({
+      type: LOAD_PRODUCTS_SUCCESS,
+      payload: productsByCategory
+    })
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: LOAD_PRODUCTS_ERROR,
+      payload: true
+    })
+  }
+}
 
 export const getAllProducts = async() => {
   let allProducts = [] as ProductI[];
@@ -87,4 +108,11 @@ export const getMyProducts = async(id: string) => {
     }
   })
   return await Promise.all(myProducts);
+}
+
+export const getProductsCategory = async(category: number) => {
+  let productsCategory = [] as ProductI[];
+  const response = await getAllProducts();
+  productsCategory = response.filter((product) => product.category === category);
+  return await Promise.all(productsCategory);
 }

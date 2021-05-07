@@ -16,7 +16,6 @@ const ListProducts: React.FC<ListProductsProps> = ({products}) => {
       <View style={styles.containerLoading}>
         <SpinnerLoading/>
       </View>
-
     )
   }
   if(!products.length){

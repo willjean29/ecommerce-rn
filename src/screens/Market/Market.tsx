@@ -8,7 +8,7 @@ import FilterCategory from 'components/Market/FilterCategory';
 import ListProducts from 'components/Market/ListProducts';
 import UserContext from 'context/user/user.context';
 import MarketContext from 'context/market/market.context';
-import { Colors } from 'utils/enums';
+import { CategoryTypes, Colors } from 'utils/enums';
 import Logo from 'assets/img/logo.png';
 import UserDefault from 'assets/img/avatar.jpg';
 
@@ -21,12 +21,24 @@ const height = Dimensions.get("window").height;
 const Market: React.FC<MarketProps> = () => {
   const [category, setCategory] = useState<number>(0);
   const {userState} = useContext(UserContext);
-  const {marketState,loadAllProducts} = useContext(MarketContext);
+  const {marketState,loadAllProducts,loadProductsCategory} = useContext(MarketContext);
   useFocusEffect(
     useCallback(() => {
-      loadAllProducts();
-    }, [])
+      if(category !== CategoryTypes.DEFAULT){
+        loadProductsCategory(category);
+      }else{
+        loadAllProducts();
+      }
+    }, [category])
   )
+
+  // useEffect(() => {
+  //   if(category !== CategoryTypes.DEFAULT){
+  //     loadProductsCategory(category);
+  //   }else{
+  //     loadAllProducts();
+  //   }
+  // }, [category])
 
   return (  
     <View style={styles.viewMarket}>
