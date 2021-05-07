@@ -73,7 +73,9 @@ const Market: React.FC<MarketProps> = () => {
             />
           </View>
         </View>
-        <SearchProduct/>
+        <SearchProduct
+          setCategory={setCategory}
+        />
       </View>
       <FilterCategory
         category={category}

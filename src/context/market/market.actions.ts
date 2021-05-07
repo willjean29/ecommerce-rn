@@ -1,4 +1,5 @@
 import React from 'react';
+import { FireSQL } from 'firesql';
 import firebase from 'database/firebase';
 import { Collections } from 'utils/enums';
 import { ProductI } from 'context/market/interfaces/product.interface';
@@ -12,6 +13,8 @@ import {
   MarketDispatchTypes 
 } from 'context/market/market.types';
 import { UserI } from 'context/user/interfaces/user.interface';
+
+const fireSQL = new FireSQL(firebase.db,{includeId: "uid"});
 
 export const loadMyProductsAction = async(id: string, dispatch: React.Dispatch<MarketDispatchTypes>) => {
   dispatch({
@@ -76,6 +79,28 @@ export const loadProductsCategoryAction = async(category: number,dispatch: React
   }
 }
 
+export const loadProductsSearchAction = async(search: string,dispatch: React.Dispatch<MarketDispatchTypes>) => {
+  dispatch({
+    type: LOAD_PRODUCTS,
+    payload: true
+  })
+  try {
+    const products = await getProductsSearch(search);
+    const productsBySearch = await getCreatedByProduct(products);
+
+    dispatch({
+      type: LOAD_PRODUCTS_SUCCESS,
+      payload: productsBySearch
+    })
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: LOAD_PRODUCTS_ERROR,
+      payload: true
+    })
+  }
+}
+
 export const getAllProducts = async() => {
   let allProducts = [] as ProductI[];
   const response = await firebase.db.collection(Collections.PRODUCTS).orderBy("createdAt","desc").get();
@@ -115,4 +140,9 @@ export const getProductsCategory = async(category: number) => {
   const response = await getAllProducts();
   productsCategory = response.filter((product) => product.category === category);
   return await Promise.all(productsCategory);
+}
+
+export const getProductsSearch = async(search: string) => {
+  const response = await fireSQL.query(`SELECT * FROM Products WHERE title LIKE '${search}%'`);
+  return response as ProductI[];
 }
