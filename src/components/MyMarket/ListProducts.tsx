@@ -26,6 +26,7 @@ const ListProducts: React.FC<ListProductsProps> = ({myProducts,toast,setIsVisibl
           />
         )}
         keyExtractor={(item, number) => item.uid}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -125,15 +126,20 @@ const ItemProduct: React.FC<ItemProductProps> = ({product,toast,setIsVisible,set
 
 const styles = StyleSheet.create({
   viewListProducts: {
+    backgroundColor:  Colors.WHITE,
   },
   viewItemProduct: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
     marginHorizontal: 10,
-    marginVertical: 5
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    elevation: 5,
+    backgroundColor: Colors.WHITE
   },
   imageProduct: {
+    backgroundColor: Colors.GRAY_OPACITY,
     elevation: 7
   },
   viewInfoProduct: {
@@ -156,7 +162,7 @@ const styles = StyleSheet.create({
   viewFooterProduct:{
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   txtPrice: {
     fontSize: 16,
@@ -167,7 +173,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginVertical: 5,
-    marginRight: 10
   },
   iconEdit: {
     borderWidth: 1,

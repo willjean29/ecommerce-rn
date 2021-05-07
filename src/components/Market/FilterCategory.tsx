@@ -11,7 +11,7 @@ export interface FilterCategoryProps {
 const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) => {
   return (
     <>
-      <View>
+      <View style={styles.viewFilterCategory}>
         <Text style={styles.txtTitleCategories}>
           - CATEGORIAS -
         </Text>
@@ -123,6 +123,9 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) =
 }
  
 const styles = StyleSheet.create({
+  viewFilterCategory: {
+
+  },
   txtTitleCategories: {
     alignSelf: "center",
     textAlign: 'center',

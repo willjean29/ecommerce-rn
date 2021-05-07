@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import { View, Text, StyleSheet, StatusBar, ActivityIndicator, Dimensions} from 'react-native';
+import { View, Text, StyleSheet, StatusBar, ActivityIndicator, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { Image, Icon, Avatar, Badge} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useFocusEffect } from '@react-navigation/native';
@@ -29,7 +29,7 @@ const Market: React.FC<MarketProps> = () => {
   )
 
   return (  
-    <KeyboardAwareScrollView style={styles.viewMarket}>
+    <View style={styles.viewMarket}>
       <StatusBar backgroundColor={Colors.GREEN}/>
       <View style={styles.viewHeader}>
         <View style={styles.viewMenuHeader}>
@@ -70,19 +70,17 @@ const Market: React.FC<MarketProps> = () => {
       <ListProducts
         products={marketState.market}
       />
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 const styles = StyleSheet.create({
   viewMarket: {
-    flex: 1,
     backgroundColor: Colors.WHITE,
-    // borderWidth: 4
+    flex: 1
   },
   viewHeader: {
     backgroundColor: Colors.GREEN,
     height: height*0.2,
-    // borderWidth: 1
   },
   viewMenuHeader: {
     flexDirection: "row",

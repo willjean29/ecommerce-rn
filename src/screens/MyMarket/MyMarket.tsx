@@ -86,7 +86,7 @@ const MyMarket: React.FC<MyMarketProps> = () => {
 const styles = StyleSheet.create({
   viewMyMarket: {
     flex: 1,
-    backgroundColor: Colors.WHITE
+    backgroundColor: Colors.WHITE,
   },
   constinerIcon: {
     position:"absolute",
