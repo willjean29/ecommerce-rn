@@ -1,29 +1,14 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { SearchBar } from 'react-native-elements';
-import MarketContext from 'context/market/market.context';
-import { CategoryTypes, Colors } from 'utils/enums';
+import { Colors } from 'utils/enums';
 
 export interface SearchProductProps {
-  setCategory: React.Dispatch<React.SetStateAction<number>>
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
  
-const SearchProduct: React.FC<SearchProductProps> = ({setCategory}) => {
-  const [search, setSearch] = useState("");
-  const {loadProductsSearch, loadAllProducts} = useContext(MarketContext);
-  useFocusEffect(
-    useCallback(() => {
-      if(search !== ""){
-        setCategory(CategoryTypes.DEFAULT);
-        loadProductsSearch(search);
-      }else{
-        setCategory(CategoryTypes.DEFAULT);
-        loadAllProducts();
-      }
-    }, [search])
-  )
-
+const SearchProduct: React.FC<SearchProductProps> = ({search,setSearch}) => {
   return (  
     <SearchBar
       placeholder="¿Qué estas buscando?"

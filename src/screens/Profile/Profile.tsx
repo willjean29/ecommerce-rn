@@ -103,7 +103,7 @@ const Profile: React.FC<ProfileProps> = () => {
 
 const styles = StyleSheet.create({
   viewProfile: {
-    // backgroundColor: Colors.WHITE,
+    backgroundColor: Colors.WHITE,
     flex: 1
   },
   containerBtn: {

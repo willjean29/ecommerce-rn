@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Image, Avatar, Rating } from 'react-native-elements';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import SpinnerLoading from 'components/SpinnerLoading';
 import { ProductI } from 'context/market/interfaces/product.interface';
-import CartEmpty from 'assets/img/empty_cart.png';
 import { Colors } from 'utils/enums';
+import CartEmpty from 'assets/img/empty_cart.png';
+
 export interface ListProductsProps {
   products: ProductI[] | null;
 }
@@ -51,8 +52,12 @@ interface ItemPorduct {
 }
 
 const ItemPorduct: React.FC<ItemPorduct> = ({product}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.viewProduct}>
+    <TouchableOpacity style={styles.viewProduct}
+      activeOpacity={0.5}
+      onPress={() => navigation.navigate("detail-product",{product})}
+    >
       <Avatar
         source={{uri: product.images[0]}}
         size={100}
@@ -93,7 +98,7 @@ const ItemPorduct: React.FC<ItemPorduct> = ({product}) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -110,9 +115,8 @@ const styles = StyleSheet.create({
     width: 200
   },
   viewContainerList: {
-    // borderWidth: 1,
+    flex: 1,
     marginTop: 10,
-    marginBottom: 40
   },
   viewProduct: {
     flexDirection: "row",
@@ -122,7 +126,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     backgroundColor: Colors.WHITE,
-    elevation: 5
+    elevation: 5,
   },
   containerImage: {
     elevation: 2,

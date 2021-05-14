@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import { Icon, Badge } from 'react-native-elements';
 import { CategoryTypes, Colors } from 'utils/enums';
 
 export interface FilterCategoryProps {
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
   setCategory: React.Dispatch<React.SetStateAction<number>>;
   category: number
 }
  
-const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) => {
+const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory,setSearch}) => {
+  const handleSelectCategory = (categoryType: number) => {
+    setCategory(categoryType);
+    setSearch("");
+  }
+  
   return (
     <>
       <View style={styles.viewFilterCategory}>
@@ -34,7 +40,7 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) =
             style={
               category === CategoryTypes.BOOKS ? styles.touchItemCategoryHover : styles.touchItemCategory
             }
-            onPress={() => setCategory(CategoryTypes.BOOKS)}
+            onPress={() => handleSelectCategory(CategoryTypes.BOOKS)}
           >
             <Icon
               type="material-community"
@@ -57,7 +63,7 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) =
             style={
               category === CategoryTypes.IDEAS ? styles.touchItemCategoryHover : styles.touchItemCategory
             }
-            onPress={() => setCategory(CategoryTypes.IDEAS)}
+            onPress={() => handleSelectCategory(CategoryTypes.IDEAS)}
           >
             <Icon
               type="material-community"
@@ -79,7 +85,7 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) =
             style={
               category === CategoryTypes.ARTICLES ? styles.touchItemCategoryHover : styles.touchItemCategory
             }
-            onPress={() => setCategory(CategoryTypes.ARTICLES)}
+            onPress={() => handleSelectCategory(CategoryTypes.ARTICLES)}
           >
             <Icon
               type="material-community"
@@ -101,7 +107,7 @@ const FilterCategory: React.FC<FilterCategoryProps> = ({category,setCategory}) =
             style={
               category === CategoryTypes.SERVICES ? styles.touchItemCategoryHover : styles.touchItemCategory
             }
-            onPress={() => setCategory(CategoryTypes.SERVICES)}
+            onPress={() => handleSelectCategory(CategoryTypes.SERVICES)}
           >
             <Icon
               type="material-community"

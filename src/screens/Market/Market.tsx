@@ -19,26 +19,25 @@ export interface MarketProps {
 const height = Dimensions.get("window").height;
 
 const Market: React.FC<MarketProps> = () => {
+  const [search, setSearch] = useState("");
   const [category, setCategory] = useState<number>(0);
   const {userState} = useContext(UserContext);
-  const {marketState,loadAllProducts,loadProductsCategory} = useContext(MarketContext);
+  const {marketState,loadAllProducts,loadProductsCategory,loadProductsSearch} = useContext(MarketContext);
+
   useFocusEffect(
     useCallback(() => {
-      if(category !== CategoryTypes.DEFAULT){
-        loadProductsCategory(category);
+      if(!search){
+        if(category !== CategoryTypes.DEFAULT){
+          loadProductsCategory(category);
+        }else{
+          loadAllProducts();
+        }
       }else{
-        loadAllProducts();
+        setCategory(CategoryTypes.DEFAULT);
+        loadProductsSearch(search);
       }
-    }, [category])
+    }, [category,search])
   )
-
-  // useEffect(() => {
-  //   if(category !== CategoryTypes.DEFAULT){
-  //     loadProductsCategory(category);
-  //   }else{
-  //     loadAllProducts();
-  //   }
-  // }, [category])
 
   return (  
     <View style={styles.viewMarket}>
@@ -74,12 +73,14 @@ const Market: React.FC<MarketProps> = () => {
           </View>
         </View>
         <SearchProduct
-          setCategory={setCategory}
+          search={search}
+          setSearch={setSearch}
         />
       </View>
       <FilterCategory
         category={category}
         setCategory={setCategory}
+        setSearch={setSearch}
       />
       <ListProducts
         products={marketState.market}

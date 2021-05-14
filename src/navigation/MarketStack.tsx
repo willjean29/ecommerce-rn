@@ -4,6 +4,8 @@ import Market from 'screens/Market/Market';
 import Contact from 'screens/Market/Contact';
 import MessageList from 'screens/Market/MessageList';
 import DetailProduct from 'screens/Market/DetailProduct';
+import { Colors } from 'utils/enums';
+
 const Stack = createStackNavigator();
 export interface MarketStackProps {
   
@@ -24,7 +26,9 @@ const MarketStack: React.FC<MarketStackProps> = () => {
         name="detail-product"
         component={DetailProduct}
         options={{
-          title: "Detalle de Producto"
+          title: "",
+          headerTintColor: Colors.GREEN,
+          headerTransparent: true
         }}
       />
       <Stack.Screen
