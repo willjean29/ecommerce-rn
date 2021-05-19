@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 import { Divider, Rating, Avatar, Icon } from 'react-native-elements';
 import { ProductI } from 'context/market/interfaces/product.interface';
+import UserContext from 'context/user/user.context';
 import { Colors } from 'utils/enums';
+import { sendWhatsapp } from 'utils/utils';
+
 
 export interface ProductInfoProps {
   product: ProductI;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
  
-const ProductInfo: React.FC<ProductInfoProps> = ({product}) => {
+const ProductInfo: React.FC<ProductInfoProps> = ({product, setIsVisible}) => {
+  const {userState} = useContext(UserContext);
   return (  
     <View style={styles.viewProductInfo}>
       <Divider style={styles.dividerTop}/>
@@ -51,14 +56,17 @@ const ProductInfo: React.FC<ProductInfoProps> = ({product}) => {
                 name="message-text-outline"
                 color={Colors.GREENLIGHT}
                 size={40}
-                onPress={() => console.log("enviar sms")}
+                onPress={() => setIsVisible(true)}
               />
               <Icon
                 type="material-community"
                 name="whatsapp"
                 color={Colors.GREENLIGHT}
                 size={40}
-                onPress={() => console.log("enviar wsp")}
+                onPress={() => sendWhatsapp(
+                  product.user?.phoneNumber as string,
+                  `Estimado ${product.user?.displayName} mi nombre es ${userState.user?.displayName} me interesa su producto ${product.title} publicado en WhatsCommerce`
+                )}
               />
             </View>
           </View>

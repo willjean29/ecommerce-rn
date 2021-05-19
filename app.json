@@ -20,6 +20,11 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.oscopupejean.ecommercern",
+      "permissions": [
+        "CAMERA_ROLL"
+      ],
+      "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

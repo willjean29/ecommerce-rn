@@ -18,7 +18,8 @@ export enum Length {
 
 export enum Collections {
   USERS = "Users",
-  PRODUCTS = "Products"
+  PRODUCTS = "Products",
+  NOTIFICATIONS = "Notifications"
 }
 
 export enum FolderImages {

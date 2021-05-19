@@ -5,7 +5,7 @@ import { ProductI } from 'context/market/interfaces/product.interface';
 import { Colors } from 'utils/enums';
 import CarouselImages from 'components/Market/CarouselImages';
 import ProductInfo from 'components/Market/ProductInfo';
-
+import ModalSendMessage from 'components/Market/ModalSendMessage';
 const screenWidth = Dimensions.get('window').width;
 interface DetailProductParams {
   product: ProductI
@@ -16,6 +16,7 @@ export interface DetailProductProps {
  
 const DetailProduct: React.FC<DetailProductProps> = ({route}) => {
   const {product} = route.params;
+  const [isVisible, setIsVisible] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   return (  
     <View style={styles.viewDetailProduct}>
@@ -27,6 +28,12 @@ const DetailProduct: React.FC<DetailProductProps> = ({route}) => {
         height={300}
       />
       <ProductInfo
+        product={product}
+        setIsVisible={setIsVisible}
+      />
+      <ModalSendMessage
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
         product={product}
       />
     </View>

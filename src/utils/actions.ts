@@ -44,6 +44,55 @@ export const registerForPushNotificationsAsync = async () => {
   return token;
 };
 
+export const initialNotifications = (notificationListener: React.MutableRefObject<any>, responseListener: React.MutableRefObject<any>) => {
+ 
+  // This listener is fired whenever a notification is received while the app is foregrounded
+  notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    console.log(notification);
+  });
+
+  // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+  responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    console.log(response);
+  });
+
+  return () => {
+    Notifications.removeNotificationSubscription(notificationListener.current);
+    Notifications.removeNotificationSubscription(responseListener.current);
+  };
+}
+
+export const sendPushNotification = async(message: any) => {
+  let result: boolean = false;
+  try {
+    const response = await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+    const data = await response.json();
+    result = true;
+  } catch (error) {
+    result = false;
+  }
+  return result;
+}
+
+export const setMessageNotification = (token: string, title: string, body: string, data: object) => {
+  const message = {
+    to: token,
+    sound: 'default',
+    title,
+    body,
+    data,
+  }
+  return message;
+}
+
 export const addRegisterCollection = async(collection: string, doc: string, data: object) => {
   const result = {
     error: "",
