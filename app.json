@@ -24,6 +24,7 @@
       "permissions": [
         "CAMERA_ROLL"
       ],
+      "googleServicesFile": "./google-services.json",
       "useNextNotificationsApi": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
