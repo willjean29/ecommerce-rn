@@ -26,6 +26,11 @@ const ListProducts: React.FC<ListProductsProps> = ({products}) => {
           source={CartEmpty}
           style={styles.imageEmpty}
         />
+        <Text
+          style={styles.txtEmpty}
+        >
+          No se encontrarón resultados
+        </Text>
       </View>
     )
   }
@@ -113,6 +118,11 @@ const styles = StyleSheet.create({
   imageEmpty: {
     height: 200,
     width: 200
+  },
+  txtEmpty: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: Colors.GREEN
   },
   viewContainerList: {
     flex: 1,

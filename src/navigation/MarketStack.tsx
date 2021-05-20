@@ -42,7 +42,11 @@ const MarketStack: React.FC<MarketStackProps> = () => {
         name="messages"
         component={MessageList}
         options={{
-          title: "Mensajes"
+          title: "Mensajes",
+          headerTintColor: Colors.WHITE,
+          headerStyle: {
+            backgroundColor: Colors.GREEN
+          }
         }}
       />
     </Stack.Navigator>

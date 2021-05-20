@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, StatusBar, ActivityIndicator, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { Image, Icon, Avatar, Badge} from 'react-native-elements';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import SearchProduct from 'components/Market/SearchProduct';
 import FilterCategory from 'components/Market/FilterCategory';
 import ListProducts from 'components/Market/ListProducts';
@@ -23,6 +22,7 @@ const Market: React.FC<MarketProps> = () => {
   const [category, setCategory] = useState<number>(0);
   const {userState} = useContext(UserContext);
   const {marketState,loadAllProducts,loadProductsCategory,loadProductsSearch} = useContext(MarketContext);
+  const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
@@ -64,6 +64,7 @@ const Market: React.FC<MarketProps> = () => {
               name="bell-outline"
               color={Colors.WHITE}
               size={30}
+              onPress={() => navigation.navigate("messages")}
             />
             <Badge
               status="error"
