@@ -35,7 +35,11 @@ const MarketStack: React.FC<MarketStackProps> = () => {
         name="contact"
         component={Contact}
         options={{
-          title: "Contactar"
+          title: "Contacto",
+          headerTintColor: Colors.WHITE,
+          headerStyle: {
+            backgroundColor: Colors.GREEN
+          }
         }}
       />
       <Stack.Screen

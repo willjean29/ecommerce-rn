@@ -5,7 +5,7 @@ import { ProductI } from 'context/market/interfaces/product.interface';
 import UserContext from 'context/user/user.context';
 import { Colors } from 'utils/enums';
 import { sendWhatsapp } from 'utils/utils';
-
+import UserDefault from 'assets/img/avatar.jpg';
 
 export interface ProductInfoProps {
   product: ProductI;
@@ -41,14 +41,19 @@ const ProductInfo: React.FC<ProductInfoProps> = ({product, setIsVisible}) => {
         </Text>
         <View style={styles.viewContactInfo}>
           <Avatar
-            source={{uri: product.user?.photoURL}}
+            // source={{uri: product.user?.photoURL}}
+            source={
+              product.user?.photoURL ? (
+                {uri: product.user?.photoURL}
+              ) : (UserDefault)
+            }
             size={60}
             containerStyle={styles.containerImage}
             rounded
           />
           <View style={styles.viewDisplayName}>
             <Text style={styles.txtDisplayNme}>
-              {product.user?.displayName}
+              {product.user?.displayName ? product.user?.displayName : "Anonimo"}
             </Text>
             <View style={styles.viewIcons}>
               <Icon

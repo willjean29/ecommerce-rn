@@ -67,7 +67,8 @@ export enum MessagesLoading{
   UPDATE_OPTION = "Actualizando datos",
   ADD_PRODUCT = "Agregando Producto",
   UPDATE_PRODUCT = "Actualizando Producto",
-  DELETE_PRODUCT = "Eliminando Producto"
+  DELETE_PRODUCT = "Eliminando Producto",
+  SEND_MESSAGE ="Enviando Mensaje"
 }
 
 export enum CategoryTypes {

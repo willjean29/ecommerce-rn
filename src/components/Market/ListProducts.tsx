@@ -6,7 +6,7 @@ import SpinnerLoading from 'components/SpinnerLoading';
 import { ProductI } from 'context/market/interfaces/product.interface';
 import { Colors } from 'utils/enums';
 import CartEmpty from 'assets/img/empty_cart.png';
-
+import UserDefault from 'assets/img/avatar.jpg';
 export interface ListProductsProps {
   products: ProductI[] | null;
 }
@@ -59,8 +59,9 @@ interface ItemPorduct {
 const ItemPorduct: React.FC<ItemPorduct> = ({product}) => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.viewProduct}
-      activeOpacity={0.5}
+    <TouchableOpacity
+      style={styles.viewProduct}
+      activeOpacity={0.6}
       onPress={() => navigation.navigate("detail-product",{product})}
     >
       <Avatar
@@ -93,16 +94,22 @@ const ItemPorduct: React.FC<ItemPorduct> = ({product}) => {
           </Text>
           <View style={styles.viewAuthor}>
             <Avatar
-              source={{uri: product.user?.photoURL}}
+              // source={{uri: product.user?.photoURL}}
+              source={
+                product.user?.photoURL ? (
+                  {uri: product.user?.photoURL}
+                ) : (UserDefault)
+              }
               size={25}
               rounded
             />
             <Text style={styles.txtAuthor}>
-              {product.user?.displayName}
+              {product.user?.displayName ? product.user?.displayName : "Anonimo"}
             </Text>
           </View>
         </View>
       </View>
+
     </TouchableOpacity>
   )
 }

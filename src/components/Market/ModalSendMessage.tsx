@@ -6,13 +6,15 @@ import { ProductI } from 'context/market/interfaces/product.interface';
 import { Collections, Colors } from 'utils/enums';
 import UserContext from 'context/user/user.context';
 import { addDataCollection, addRegisterCollection, sendPushNotification, setMessageNotification } from 'utils/actions';
+import { MessagesDto } from 'context/messages/dtos/messages.dto';
 export interface ModalSendMessageProps {
   product: ProductI;
   isVisible: boolean;
+  setWtchLoading: React.Dispatch<React.SetStateAction<boolean>>
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
  
-const ModalSendMessage: React.FC<ModalSendMessageProps> = ({isVisible, setIsVisible, product}) => {
+const ModalSendMessage: React.FC<ModalSendMessageProps> = ({isVisible, setIsVisible, product,setWtchLoading}) => {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({
     empty: ""
@@ -27,50 +29,69 @@ const ModalSendMessage: React.FC<ModalSendMessageProps> = ({isVisible, setIsVisi
       setErrors({
         empty: ""
       })
-      const notification = {
-        sender: userState.user?.uid,
-        receiver: product.user?.uid,
+      const notification: MessagesDto = {
+        sender: userState.user?.uid as string,
+        receiver: product.user?.uid as string,
         message,
         createdAt: new Date(),
         productUid: product.uid,
         productTitle: product.title,
         viewed: 0,
       };
-      const response = await addDataCollection(Collections.NOTIFICATIONS,notification);
-      if(response){
-        const messageData = setMessageNotification(
-          product.user?.token as string,
-          `Cliente Interesado - ${product.title} 📬`,
-          `${product.user?.displayName}, te ha enviado un mensaje`,
-          { data : "Prospecto Interesado"}
-        );
-        const result = await sendPushNotification(messageData);
-        if(result){
-          Alert.alert(
-            "Mensaje Exitoso",
-            "Se ha enviado el mensaje correctamente",
-            [
-              {
-                style: "cancel",
-                text: "Entendido",
-                onPress: () => setIsVisible(false)
-              }
-            ]
-          )
-        }else{
-          Alert.alert(
-            "Mensaje Error",
-            "Se ha producido un error al enviar el mensaje",
-            [
-              {
-                style: "cancel",
-                text: "Entendido",
-                onPress: () => setIsVisible(false)
-              }
-            ]
-          )
+      setWtchLoading(true);
+      try {
+        const response = await addDataCollection(Collections.NOTIFICATIONS,notification);
+        if(response){
+          const messageData = setMessageNotification(
+            product.user?.token as string,
+            `Cliente Interesado - ${product.title} 📬`,
+            `${product.user?.displayName}, te ha enviado un mensaje`,
+            { data : "Prospecto Interesado"}
+          );
+          const result = await sendPushNotification(messageData);
+          if(result){
+            setWtchLoading(false);
+            Alert.alert(
+              "Mensaje Exitoso",
+              "Se ha enviado el mensaje correctamente",
+              [
+                {
+                  style: "cancel",
+                  text: "Entendido",
+                  onPress: () => setIsVisible(false)
+                }
+              ]
+            )
+          }else{
+            setWtchLoading(false);
+            Alert.alert(
+              "Mensaje Error",
+              "Se ha producido un error al enviar el mensaje",
+              [
+                {
+                  style: "cancel",
+                  text: "Entendido",
+                  onPress: () => setIsVisible(false)
+                }
+              ]
+            )
+          }
         }
+      } catch (error) {
+        setWtchLoading(false);
+        Alert.alert(
+          "Mensaje Error",
+          "Se ha producido un error al enviar el mensaje",
+          [
+            {
+              style: "cancel",
+              text: "Entendido",
+              onPress: () => setIsVisible(false)
+            }
+          ]
+        )
       }
+
     }
 
   }

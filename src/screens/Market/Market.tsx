@@ -10,6 +10,7 @@ import MarketContext from 'context/market/market.context';
 import { CategoryTypes, Colors } from 'utils/enums';
 import Logo from 'assets/img/logo.png';
 import UserDefault from 'assets/img/avatar.jpg';
+import MessagesContext from 'context/messages/messages.context';
 
 export interface MarketProps {
   
@@ -22,8 +23,10 @@ const Market: React.FC<MarketProps> = () => {
   const [category, setCategory] = useState<number>(0);
   const {userState} = useContext(UserContext);
   const {marketState,loadAllProducts,loadProductsCategory,loadProductsSearch} = useContext(MarketContext);
-  const navigation = useNavigation();
+  const {loadMessages, messagesState} = useContext(MessagesContext);
 
+  const navigation = useNavigation();
+ 
   useFocusEffect(
     useCallback(() => {
       if(!search){
@@ -37,6 +40,12 @@ const Market: React.FC<MarketProps> = () => {
         loadProductsSearch(search);
       }
     }, [category,search])
+  )
+
+  useFocusEffect(
+    useCallback(() => {
+      loadMessages(userState.user?.uid as string);
+    }, [])
   )
 
   return (  
@@ -66,11 +75,13 @@ const Market: React.FC<MarketProps> = () => {
               size={30}
               onPress={() => navigation.navigate("messages")}
             />
-            <Badge
-              status="error"
-              containerStyle={styles.badgeContainer}
-              value={2}
-            />
+            {(messagesState.messages !== null && messagesState.messages.length !== 0) &&(
+              <Badge
+                status="error"
+                containerStyle={styles.badgeContainer}
+                value={messagesState.messages.length}
+              />
+            )}
           </View>
         </View>
         <SearchProduct

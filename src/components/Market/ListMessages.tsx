@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 import { DateI, MessagesI } from 'context/messages/interfaces/messages.interface';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -31,8 +32,13 @@ interface ItemMessageProps {
 const ItemMessage: React.FC<ItemMessageProps> = ({message}) => {
   const time = message.createdAt as DateI;
   const timeSeconds = parseInt(time.seconds) * 1000;
+  const navigation = useNavigation();
   return (
-    <View style={styles.viewItemMessage}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      style={styles.viewItemMessage}
+      onPress={() => navigation.navigate("contact", {message})}
+    >
       <Avatar
         source={{uri: message.user?.photoURL}}
         rounded
@@ -54,7 +60,8 @@ const ItemMessage: React.FC<ItemMessageProps> = ({message}) => {
           {moment(timeSeconds).format("L")} - {moment(timeSeconds).format("LT")}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
+
   )
 }
 
@@ -71,7 +78,8 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   containerAvatar: {
-    elevation: 5
+    elevation: 5,
+    backgroundColor: Colors.GRAY_OPACITY
   },
   viewInfoMessage: {
     flex: 1,
