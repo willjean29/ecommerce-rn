@@ -5,7 +5,8 @@ import * as Notifications from 'expo-notifications';
 import uuid from 'random-uuid-v4';
 import firebase from 'database/firebase';
 import { fileToBlob } from 'utils/utils';
-import { FolderImages } from 'utils/enums';
+import { Collections, FolderImages } from 'utils/enums';
+import { UserI } from 'context/user/interfaces/user.interface';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -142,4 +143,23 @@ export const deleteDataCollection = async(collection: string, doc: string) => {
   } catch (error) {
     return false;
   }
+}
+
+export const existAccount = async(collection: string, email: string) => {
+  let result = false;
+  try {
+    const response = await firebase.db.collection(collection).where(
+      "email","==",email
+    ).get();
+    response.forEach((user)=> {
+      const data = user.data() as UserI;
+      if(data.email === email){
+        result = true;
+      }
+    })
+  } catch (error) {
+    result = false;
+  }
+
+  return result;
 }

@@ -2,12 +2,15 @@ import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Input, Icon, Button, Divider } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Facebook from 'expo-facebook';
 import UserContext from 'context/user/user.context';
 import { useForm } from 'hooks/useForm';
 import { LoginDto } from 'context/user/dtos/login.dto';
-import { Colors, MessagesToast } from 'utils/enums';
+import { Collections, Colors, MessagesToast } from 'utils/enums';
 import { validationEmail, validationPassword } from 'utils/validations';
 import firebase from 'database/firebase';
+import { existAccount } from 'utils/actions';
 export interface LoginFormProps {
   toast: React.MutableRefObject<any>
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -44,7 +47,81 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
       console.log("INICIAR SESION");
     }
   }
- 
+
+  const signInAsync = async() =>{
+    try {
+      await GoogleSignIn.initAsync();
+      //const usuario = await GoogleSignIn.signInSilentlyAsync();
+      await GoogleSignIn.askForPlayServicesAsync(); //usar solo en android
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if (type === "success") {
+        const existRegister = await existAccount(Collections.USERS,user?.email as string);
+        if(existRegister){
+          setIsVisible(false);
+          toast.current.show("La email ya se encuentra registrado");
+        }else{
+          onSignIn(user);
+          setIsVisible(false);
+          console.log(user);
+        }
+      } else {
+        console.log("fallo");
+        setIsVisible(false);
+        toast.current.show("Error de Inicio de Sesion");
+      }
+    } catch (error) {
+      console.log("error : ", error);
+      setIsVisible(false);
+    }
+  }
+
+  function onSignIn(googleUser: GoogleSignIn.GoogleUser | null | undefined) {
+    const unsubscribe = firebase
+      .auth
+      .onAuthStateChanged(function (firebaseUser) {
+        unsubscribe();
+        // Check if we are already signed-in Firebase with the correct user.
+        if (!isUserEqual(googleUser, firebaseUser)) {
+          // Build Firebase credential with the Google ID token.
+          var credential = firebase.getGoogleCredentials(
+            googleUser?.auth?.idToken,
+            googleUser?.auth?.accessToken
+          );
+          // Sign in with credential from the Google user.
+          setIsVisible(true);
+          firebase
+            .auth
+            .signInWithCredential(credential)
+            .then((response) => {
+              setIsVisible(false);
+            })
+            .catch(function (error) {
+              toast.current.show("Error al Iniciar Sesión");
+              setIsVisible(false);
+            });
+        } else {
+          toast.current.show("El usuario ya se encuentra registrado");
+        }
+      });
+  }
+
+  const isUserEqual =(googleUser: any, firebaseUser: any ) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (
+          providerData[i].providerId ===
+            firebase.getGoogleProvider.PROVIDER_ID &&
+          providerData[i].uid === googleUser.getBasicProfile().getId()
+        ) {
+          // We don't need to reauth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   return (  
     <View style={styles.viewLoginForm}>
       <Divider style={styles.dividerTop}/>
@@ -108,6 +185,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
       <View style={styles.viewNetwork}>
         <TouchableOpacity
           activeOpacity={0.5}
+          onPress={signInAsync}
         >
           <Icon
             type="material-community"
@@ -117,8 +195,9 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
             size={30}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.5}
+          onPress={logIn}
         >
           <Icon
             type="material-community"
@@ -127,7 +206,7 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
             containerStyle={styles.containerIcon}
             size={30}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

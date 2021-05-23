@@ -1,4 +1,5 @@
 import React from 'react';
+import * as GoogleSignIn from 'expo-google-sign-in';
 import firebase from 'database/firebase';
 import { Collections, FolderImages } from 'utils/enums';
 import { 
@@ -176,6 +177,7 @@ export const updateDataUser = (user: UserI, dispatch: React.Dispatch<UserDispatc
 export const logoutAction = async(dispatch: React.Dispatch<UserDispatchTypes>, userInitialState: UserStateI) => {
   try {
     await firebase.auth.signOut();
+    await GoogleSignIn.disconnectAsync();
     dispatch({
       type: LOGOUT_USER,
       payload: userInitialState

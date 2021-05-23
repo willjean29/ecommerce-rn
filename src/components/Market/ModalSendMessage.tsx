@@ -42,40 +42,31 @@ const ModalSendMessage: React.FC<ModalSendMessageProps> = ({isVisible, setIsVisi
       try {
         const response = await addDataCollection(Collections.NOTIFICATIONS,notification);
         if(response){
-          const messageData = setMessageNotification(
-            product.user?.token as string,
-            `Cliente Interesado - ${product.title} 📬`,
-            `${product.user?.displayName}, te ha enviado un mensaje`,
-            { data : "Prospecto Interesado"}
-          );
-          const result = await sendPushNotification(messageData);
-          if(result){
-            setWtchLoading(false);
-            Alert.alert(
-              "Mensaje Exitoso",
-              "Se ha enviado el mensaje correctamente",
-              [
-                {
-                  style: "cancel",
-                  text: "Entendido",
-                  onPress: () => setIsVisible(false)
-                }
-              ]
-            )
-          }else{
-            setWtchLoading(false);
-            Alert.alert(
-              "Mensaje Error",
-              "Se ha producido un error al enviar el mensaje",
-              [
-                {
-                  style: "cancel",
-                  text: "Entendido",
-                  onPress: () => setIsVisible(false)
-                }
-              ]
-            )
-          }
+          setWtchLoading(false);
+          Alert.alert(
+            "Mensaje Exitoso",
+            "Se ha enviado el mensaje correctamente",
+            [
+              {
+                style: "cancel",
+                text: "Entendido",
+                onPress: () => setIsVisible(false)
+              }
+            ]
+          )
+        }else{
+          setWtchLoading(false);
+          Alert.alert(
+            "Mensaje Error",
+            "Se ha producido un error al enviar el mensaje",
+            [
+              {
+                style: "cancel",
+                text: "Entendido",
+                onPress: () => setIsVisible(false)
+              }
+            ]
+          )
         }
       } catch (error) {
         setWtchLoading(false);
@@ -91,7 +82,6 @@ const ModalSendMessage: React.FC<ModalSendMessageProps> = ({isVisible, setIsVisi
           ]
         )
       }
-
     }
 
   }

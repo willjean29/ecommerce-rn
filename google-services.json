@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:415711969982:android:72d6229d828942694b54ef",
+        "mobilesdk_app_id": "1:415711969982:android:43c4c98c960c0daa4b54ef",
         "android_client_info": {
           "package_name": "com.oscopupejean.ecommercern"
         }
       },
       "oauth_client": [
         {
-          "client_id": "415711969982-ni77frdam3h6gs9kkceonni8nn1j6kvd.apps.googleusercontent.com",
+          "client_id": "415711969982-47kggq4too38h35n58s32c6qrj39adgh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.oscopupejean.ecommercern",
-            "certificate_hash": "2875f9577708a6f9b5bbf5dc9135a83b56ae7961"
+            "certificate_hash": "abd05dcb7c9098564881dea4358bd0678a060277"
           }
         },
         {
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC2vEHZhcUxHNBonmfEHsbzAi1qff77HAo"
+          "current_key": "AIzaSyAiNg48pAny9WRIqlNY_nOd2bPXdvuxak8"
         }
       ],
       "services": {
