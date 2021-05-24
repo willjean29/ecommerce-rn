@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { View } from 'react-native';
 import Loading from 'components/Loading';
 import NavigationAuthenticate from 'navigation/NavigationAuthenticate';
+import DrawerNavigation from 'navigation/DrawerNavigation';
 import AccountStack from 'navigation/AccountStack';
 import UserContext from 'context/user/user.context';
 import { MessagesLoading } from 'utils/enums';
@@ -28,7 +29,7 @@ const SwitchNavigation: React.FC<SwitchNavigationProps> = () => {
     )
   }else{
     return phoneAuth ? (
-      <NavigationAuthenticate/>
+      <DrawerNavigation/>
     ) : (
       <AccountStack/>
     )

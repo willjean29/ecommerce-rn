@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
+import DrawerNavigation from 'navigation/DrawerNavigation';
 // import AccountStack from 'navigation/AccountStack';
 import MarketStack from 'navigation/MarketStack';
 import MyMarketStack from 'navigation/MyMarketStack';
@@ -18,50 +19,48 @@ export interface NavigationAuthenticateProps {
  
 const NavigationAuthenticate: React.FC<NavigationAuthenticateProps> = () => {
   return (  
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="my-market"
-        tabBarOptions={{
-          inactiveTintColor: Colors.GRAYINACTIVE,
-          activeTintColor: Colors.WHITE,
-          style: {
-            // borderTopRightRadius: 60,
-            // borderTopLeftRadius: 60,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: Colors.GREEN,
-            paddingBottom: 5,
-            paddingTop: 5,
-            height: 60,
-          }
+    <Tab.Navigator
+      initialRouteName="my-market"
+      tabBarOptions={{
+        inactiveTintColor: Colors.GRAYINACTIVE,
+        activeTintColor: Colors.WHITE,
+        style: {
+          // borderTopRightRadius: 60,
+          // borderTopLeftRadius: 60,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: Colors.GREEN,
+          paddingBottom: 5,
+          paddingTop: 5,
+          height: 60,
+        }
+      }}
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color}) => screenOptions(route, color)
+      })}
+    >
+      <Tab.Screen
+        name="market"
+        component={MarketStack}
+        options={{
+          title: "Tienda"
         }}
-        screenOptions={({route}) => ({
-          tabBarIcon: ({color}) => screenOptions(route, color)
-        })}
-      >
-        <Tab.Screen
-          name="market"
-          component={MarketStack}
-          options={{
-            title: "Tienda"
-          }}
-        />
-        <Tab.Screen
-          name="my-market"
-          component={MyMarketStack}
-          options={{
-            title: ""
-          }}
-        />
-        <Tab.Screen
-          name="profile"
-          component={ProfileStack}
-          options={{
-            title: "Mi Perfil"
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+      />
+      <Tab.Screen
+        name="my-market"
+        component={MyMarketStack}
+        options={{
+          title: ""
+        }}
+      />
+      <Tab.Screen
+        name="profile"
+        component={ProfileStack}
+        options={{
+          title: "Mi Perfil"
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 

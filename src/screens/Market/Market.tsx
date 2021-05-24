@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, StatusBar, ActivityIndicator, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { Image, Icon, Avatar, Badge} from 'react-native-elements';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { DrawerActions, useFocusEffect, useNavigation } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import SearchProduct from 'components/Market/SearchProduct';
 import FilterCategory from 'components/Market/FilterCategory';
 import ListProducts from 'components/Market/ListProducts';
@@ -62,6 +63,7 @@ const Market: React.FC<MarketProps> = () => {
             size={50}
             avatarStyle={styles.avatarUser}
             renderPlaceholderContent={<ActivityIndicator size="large" color={Colors.GREEN}/>}
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
           />
           <Image
             source={Logo}

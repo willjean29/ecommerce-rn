@@ -55,23 +55,18 @@ const LoginForm: React.FC<LoginFormProps> = ({toast,setIsVisible}) => {
       await GoogleSignIn.askForPlayServicesAsync(); //usar solo en android
       const { type, user } = await GoogleSignIn.signInAsync();
       if (type === "success") {
-        const existRegister = await existAccount(Collections.USERS,user?.email as string);
-        if(existRegister){
-          setIsVisible(false);
-          toast.current.show("La email ya se encuentra registrado");
-        }else{
-          onSignIn(user);
-          setIsVisible(false);
-          console.log(user);
-        }
+        onSignIn(user);
+        setIsVisible(false);
+        console.log(user);
       } else {
         console.log("fallo");
         setIsVisible(false);
-        toast.current.show("Error de Inicio de Sesion");
+        toast.current.show("No ha seleccionado ninguna cuenta de Gmail");
       }
     } catch (error) {
       console.log("error : ", error);
       setIsVisible(false);
+      toast.current.show("Error de Inicio de Sesion");
     }
   }
 
