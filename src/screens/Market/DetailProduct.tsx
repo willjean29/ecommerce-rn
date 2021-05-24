@@ -50,7 +50,8 @@ const DetailProduct: React.FC<DetailProductProps> = ({route}) => {
 const styles = StyleSheet.create({
   viewDetailProduct: {
     backgroundColor: Colors.WHITE,
-    flex: 1
+    flex: 1,
+    // borderWidth: 2
   }
 })
  

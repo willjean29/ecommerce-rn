@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, ScrollView} from 'react-native';
 import { Divider, Rating, Avatar, Icon } from 'react-native-elements';
 import { ProductI } from 'context/market/interfaces/product.interface';
 import UserContext from 'context/user/user.context';
@@ -15,7 +15,9 @@ export interface ProductInfoProps {
 const ProductInfo: React.FC<ProductInfoProps> = ({product, setIsVisible}) => {
   const {userState} = useContext(UserContext);
   return (  
-    <View style={styles.viewProductInfo}>
+    <ScrollView style={styles.viewProductInfo}
+      showsVerticalScrollIndicator={false}
+    >
       <Divider style={styles.dividerTop}/>
       <View style={styles.viewInfoProduct}>
         <Text style={styles.txtTitle}>
@@ -78,19 +80,17 @@ const ProductInfo: React.FC<ProductInfoProps> = ({product, setIsVisible}) => {
         </View>
       </View>
 
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   viewProductInfo: {
-    // borderWidth: 2,
     flex: 1,
-    top: -50,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     backgroundColor: Colors.WHITE,
-    paddingTop: 20
+    paddingTop: 20,
   },
   dividerTop: {
     backgroundColor: Colors.GREENLIGHT,
@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
   viewInfoProduct: {
     marginHorizontal: 10,
     textAlign: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 50
   },
   txtTitle: {
     color: Colors.GREEN,

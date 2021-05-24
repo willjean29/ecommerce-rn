@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   containerImgEmpty: {
-    marginTop: "15%",
+    // marginTop: "10%",
     alignItems: "center"
   },
   imageEmpty: {
